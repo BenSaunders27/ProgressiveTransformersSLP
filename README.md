@@ -21,7 +21,7 @@ Our transformer network architecture introduces a counter that enables continuou
 
 # Reference
 
-If you with to reference Progressive Transformers in a publication or thesis, please cite the following [paper](https://arxiv.org/abs/2004.14874):
+If you wish to reference Progressive Transformers in a publication or thesis, please cite the following [paper](https://arxiv.org/abs/2004.14874):
 
 ```
 @article{saunders2020progressive,
