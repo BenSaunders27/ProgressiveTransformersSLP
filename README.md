@@ -23,9 +23,11 @@ Our transformer network architecture introduces a counter that enables continuou
 
 If you with to reference Progressive Transformers in a publication or thesis, please cite the following paper:
 
+```
 @article{saunders2020progressive,
   title={Progressive Transformers for End-to-End Sign Language Production},
   author={Saunders, Ben and Camgoz, Necati Cihan and Bowden, Richard},
   journal={arXiv preprint arXiv:2004.14874},
   year={2020}
 }
+```
