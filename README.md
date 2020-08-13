@@ -7,7 +7,7 @@ Paper accepted for publication at ECCV 2020, pre-print available at https://arxi
 
 
 
-Source code currently under review, and shall be available in time for ECCV20 conference.
+Source code currently under review, coming soon.
 
 
 # Abstract
