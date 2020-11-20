@@ -4,10 +4,14 @@ Source code for "Progressive Transformers for End-to-End Sign Language Productio
 
 Paper published at ECCV 2020, available at https://www.ecva.net/papers/eccv_2020/papers_ECCV/papers/123560664.pdf
 
-Source code currently under review, coming soon.
 
+# Usage
 
-Back Translation model created from https://github.com/neccam/slt
+Prepare Phoenix (or other sign langugae dataset) Data as .txt files, for .skel, .gloss, .txt and .files. Examples in /Data/tmp
+
+Run 
+
+Back Translation model created from https://github.com/neccam/slt. Back Translation evaluation code coming soon.
 
 # Abstract
 
