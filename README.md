@@ -11,7 +11,7 @@ Prepare Phoenix (or other sign langugae dataset) Data as .txt files, for .skel, 
 
 To run, start __main__.py with arguments "train" and ".\Configs\Base.yaml":
 
-`python __main__.p train ./Configs/Base.yaml` 
+`python __main__.py train ./Configs/Base.yaml` 
 
 Back Translation model created from https://github.com/neccam/slt. Back Translation evaluation code coming soon.
 
