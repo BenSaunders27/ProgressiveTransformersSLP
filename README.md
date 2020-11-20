@@ -7,6 +7,8 @@ Paper published at ECCV 2020, available at https://www.ecva.net/papers/eccv_2020
 Source code currently under review, coming soon.
 
 
+Back Translation model created from https://github.com/neccam/slt
+
 # Abstract
 
 The goal of automatic Sign Language Production (SLP) is to translate spoken language to a continuous stream of sign language video at a level comparable to a human translator. If this was achievable, then it would revolutionise Deaf hearing communications. Previous work on predominantly isolated SLP has shown the need for architectures that are better suited to the continuous domain of full sign sequences.
