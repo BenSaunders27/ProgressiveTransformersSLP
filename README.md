@@ -2,10 +2,7 @@
 
 Source code for "Progressive Transformers for End-to-End Sign Language Production" (Ben Saunders, Necati Cihan Camgoz, Richard Bowden) 
 
-Paper accepted for publication at ECCV 2020, pre-print available at https://arxiv.org/abs/2004.14874
-
-
-
+Paper published at ECCV 2020, available at https://www.ecva.net/papers/eccv_2020/papers_ECCV/papers/123560664.pdf
 
 Source code currently under review, coming soon.
 
