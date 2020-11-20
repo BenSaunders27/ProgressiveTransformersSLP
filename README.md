@@ -7,14 +7,20 @@ Paper published at ECCV 2020, available at https://www.ecva.net/papers/eccv_2020
 
 # Usage
 
-Prepare Phoenix (or other sign language dataset) data as .txt files for .skel, .gloss, .txt and .files. Data format should be parallel .txt files for src, trg and files. Each line of the .txt file represents a new sequence, in the same order in each file. src file should contain a new source input on each line
-trg file should contain skeleton data, with each line a new sequence, each frame following on from the previous. Each joint value should be separated by a space; " ". Each frame is partioned using the known trg_size length, which includes all joints (In 2D or 3D) and the counter. Files file should contain the name of each sequence on a new line. Examples in /Data/tmp. Data path must be specified in config file.
 
 To run, start __main__.py with arguments "train" and ".\Configs\Base.yaml":
 
 `python __main__.py train ./Configs/Base.yaml` 
 
 Back Translation model created from https://github.com/neccam/slt. Back Translation evaluation code coming soon.
+
+# Data
+
+Phoenix14T data can be downloaded from https://www-i6.informatik.rwth-aachen.de/~koller/RWTH-PHOENIX-2014-T/ and skelton joints can be extracted using OpenPose at  https://github.com/CMU-Perceptual-Computing-Lab/openpose
+
+Prepare Phoenix (or other sign language dataset) data as .txt files for .skel, .gloss, .txt and .files. Data format should be parallel .txt files for src, trg and files, with each line representing a new sequence. trg file should contain skeleton data, with a space separating joint values and each frame containing joints and counter to the length of trg_size length. Files file should contain the name of each sequence on a new line. 
+Examples can be found in /Data/tmp. Data path must be specified in config file.
+
 
 # Abstract
 
