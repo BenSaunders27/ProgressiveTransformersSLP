@@ -7,7 +7,8 @@ Paper published at ECCV 2020, available at https://www.ecva.net/papers/eccv_2020
 
 # Usage
 
-Prepare Phoenix (or other sign langugae dataset) data as .txt files for .skel, .gloss, .txt and .files. Examples in /Data/tmp. Data path must be specified in config file.
+Prepare Phoenix (or other sign language dataset) data as .txt files for .skel, .gloss, .txt and .files. Data format should be parallel .txt files for src, trg and files. Each line of the .txt file represents a new sequence, in the same order in each file. src file should contain a new source input on each line
+trg file should contain skeleton data, with each line a new sequence, each frame following on from the previous. Each joint value should be separated by a space; " ". Each frame is partioned using the known trg_size length, which includes all joints (In 2D or 3D) and the counter. Files file should contain the name of each sequence on a new line. Examples in /Data/tmp. Data path must be specified in config file.
 
 To run, start __main__.py with arguments "train" and ".\Configs\Base.yaml":
 
