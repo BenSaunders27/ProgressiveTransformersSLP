@@ -7,7 +7,7 @@ Paper published at ECCV 2020, available at https://www.ecva.net/papers/eccv_2020
 
 # Usage
 
-Prepare Phoenix (or other sign langugae dataset) Data as .txt files, for .skel, .gloss, .txt and .files. Examples in /Data/tmp
+Prepare Phoenix (or other sign langugae dataset) Data as .txt files, for .skel, .gloss, .txt and .files. Examples in /Data/tmp. Data path must be specified in config file.
 
 To run, start __main__.py with arguments "train" and ".\Configs\Base.yaml":
 
