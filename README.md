@@ -9,7 +9,9 @@ Paper published at ECCV 2020, available at https://www.ecva.net/papers/eccv_2020
 
 Prepare Phoenix (or other sign langugae dataset) Data as .txt files, for .skel, .gloss, .txt and .files. Examples in /Data/tmp
 
-Run 
+To run, start __main__.py with arguments "train" and ".\Configs\Base.yaml":
+
+`python __main__.p train ./Configs/Base.yaml` 
 
 Back Translation model created from https://github.com/neccam/slt. Back Translation evaluation code coming soon.
 
