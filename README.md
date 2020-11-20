@@ -16,7 +16,7 @@ Back Translation model created from https://github.com/neccam/slt. Back Translat
 
 # Data
 
-Phoenix14T data can be downloaded from https://www-i6.informatik.rwth-aachen.de/~koller/RWTH-PHOENIX-2014-T/ and skelton joints can be extracted using OpenPose at  https://github.com/CMU-Perceptual-Computing-Lab/openpose
+Phoenix14T data can be downloaded from https://www-i6.informatik.rwth-aachen.de/~koller/RWTH-PHOENIX-2014-T/ and skeleton joints can be extracted using OpenPose at  https://github.com/CMU-Perceptual-Computing-Lab/openpose
 
 Prepare Phoenix (or other sign language dataset) data as .txt files for .skel, .gloss, .txt and .files. Data format should be parallel .txt files for src, trg and files, with each line representing a new sequence. trg file should contain skeleton data, with a space separating joint values and each frame containing joints and counter to the length of trg_size length. Files file should contain the name of each sequence on a new line. 
 Examples can be found in /Data/tmp. Data path must be specified in config file.
