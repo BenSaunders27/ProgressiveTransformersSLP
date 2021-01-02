@@ -4,6 +4,10 @@ Source code for "Progressive Transformers for End-to-End Sign Language Productio
 
 # Usage
 
+Install required packages using the requirements.txt file.
+
+`pip install -r requirements.txt`
+
 To run, start __main__.py with arguments "train" and ".\Configs\Base.yaml":
 
 `python __main__.py train ./Configs/Base.yaml` 
