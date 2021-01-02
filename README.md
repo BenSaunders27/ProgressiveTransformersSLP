@@ -14,7 +14,14 @@ Back Translation model created from https://github.com/neccam/slt. Back Translat
 
 Phoenix14T data can be downloaded from https://www-i6.informatik.rwth-aachen.de/~koller/RWTH-PHOENIX-2014-T/ and skeleton joints can be extracted using OpenPose at  https://github.com/CMU-Perceptual-Computing-Lab/openpose
 
-Prepare Phoenix14T (or other sign language dataset) data as .txt files for .skel, .gloss, .txt and .files. Data format should be parallel .txt files for "src", "trg" and "files", with each line representing a new sequence. The "src" file contains source sentences, with each line representing new sentence. The "trg" file contains skeleton data of each frame, with a space separating frames. Each frame contains 150 joint values and a subsequent counter value, all separated by a space. Each sequence should be separated with a new line. If your data contains 150 joints per frame, please ensure that trg_size is set to 150 in the config file. The "files" file should contain the name of each sequence on a new line. 
+Prepare Phoenix14T (or other sign language dataset) data as .txt files for .skel, .gloss, .txt and .files. Data format should be parallel .txt files for "src", "trg" and "files", with each line representing a new sequence:
+
+- The "src" file contains source sentences, with each line representing new sentence. 
+
+- The "trg" file contains skeleton data of each frame, with a space separating frames. Each frame contains 150 joint values and a subsequent counter value, all separated by a space. Each sequence should be separated with a new line. If your data contains 150 joints per frame, please ensure that trg_size is set to 150 in the config file. 
+
+- The "files" file should contain the name of each sequence on a new line. 
+
 Examples can be found in /Data/tmp. Data path must be specified in config file.
 
 
