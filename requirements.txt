@@ -162,7 +162,7 @@ ubuntu-drivers-common==0.0.0
 ufw==0.36
 unattended-upgrades==0.1
 unidiff==0.5.4
-urllib3==1.25.6
+urllib3==1.25.8
 usb-creator==0.3.3
 virtualenv==15.1.0
 wadllib==1.3.2
