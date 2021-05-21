@@ -18,11 +18,15 @@ def main():
     ap.add_argument("config_path", type=str,
                     help="path to YAML config file")
 
+    # Optional path to checkpoint
+    ap.add_argument("--ckpt", type=str,
+                    help="path to model checkpoint")
+
     args = ap.parse_args()
 
     # If Train
     if args.mode == "train":
-        train(cfg_file=args.config_path)
+        train(cfg_file=args.config_path, ckpt=args.ckpt)
     # If Test
     elif args.mode == "test":
         test(cfg_file=args.config_path, ckpt=args.ckpt)

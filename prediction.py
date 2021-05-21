@@ -91,8 +91,8 @@ def validate_on_data(model: Model,
             all_dtw_scores.extend(dtw_score)
 
             # Can set to only run a few batches
-            # if batches == math.ceil(100/batch_size):
-            #     break
+            if batches == math.ceil(20/batch_size):
+                break
             batches += 1
 
         # Dynamic Time Warping scores

@@ -1,4 +1,3 @@
-
 import argparse
 import time
 import shutil
@@ -535,7 +534,7 @@ class TrainManager:
         assert trainable_params
 
 
-def train(cfg_file: str) -> None:
+def train(cfg_file: str, ckpt=None) -> None:
 
     # Load the config file
     cfg = load_config(cfg_file)
@@ -548,6 +547,12 @@ def train(cfg_file: str) -> None:
 
     # Build the Progressive Transformer model
     model = build_model(cfg, src_vocab=src_vocab, trg_vocab=trg_vocab)
+
+    if ckpt is not None:
+        use_cuda = cfg["training"].get("use_cuda", False)
+        model_checkpoint = load_checkpoint(ckpt, use_cuda=use_cuda)
+        # Build model and load parameters from the checkpoint
+        model.load_state_dict(model_checkpoint["model_state"])
 
     # for training management, e.g. early stopping and model selection
     trainer = TrainManager(model=model, config=cfg)
