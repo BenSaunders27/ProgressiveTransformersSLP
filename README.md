@@ -14,7 +14,7 @@ To run, start __main__.py with arguments "train" and ".\Configs\Base.yaml":
 
 `python __main__.py train ./Configs/Base.yaml` 
 
-An example train.log file can be found in ".\Configs\train.log"
+An example train.log file can be found in ".\Configs\train.log" and a validation file at ".\Configs\validations.txt"
 
 Back Translation model created from https://github.com/neccam/slt. Back Translation evaluation code coming soon.
 
