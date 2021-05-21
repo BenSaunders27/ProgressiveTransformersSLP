@@ -32,6 +32,9 @@ Prepare Phoenix14T (or other sign language dataset) data as .txt files for .skel
 
 Examples can be found in /Data/tmp. Data path must be specified in config file.
 
+# Pre-Trained Model
+
+A pre-trained Progressive Transformer checkpoint can be downloaded from https://www.dropbox.com/s/l4xmnybp7luz0l3/PreTrained_PTSLP_Model.ckpt?dl=0. This model has a size of ```num_layers: 2```, ```num_heads: 4``` and ```embedding_dim: 512```, as outlined in ```./Configs/Base.yaml```. It has been pre-trained on the full PHOENIX14T dataset with the data format as above. To initialise a model from this checkpoint, pass the ```--ckpt ./PreTrained_PTSLP_Model.ckpt``` argument to either ```train``` or ```test``` modes. Additionally, to initialise the correct src_embed size, the config argument ```src_vocab: "./Configs/src_vocab.txt"``` must be set to the location of the src_vocab.txt, found under ```./Configs```. Please open an issue if this checkpoint cannot be downloaded or loaded.
 
 # Reference
 
@@ -41,14 +44,21 @@ If you use this code in your research, please cite the following [papers](https:
 @inproceedings{saunders2020progressive,
 	title		=	{{Progressive Transformers for End-to-End Sign Language Production}},
 	author		=	{Saunders, Ben and Camgoz, Necati Cihan and Bowden, Richard},
-	booktitle   =   {Proceedings of the European Conference on Computer Vision (ECCV)},
+	booktitle   	=   	{Proceedings of the European Conference on Computer Vision (ECCV)},
 	year		=	{2020}}
 
 @inproceedings{saunders2020adversarial,
 	title		=	{{Adversarial Training for Multi-Channel Sign Language Production}},
 	author		=	{Saunders, Ben and Camgoz, Necati Cihan and Bowden, Richard},
-	booktitle   =   {Proceedings of the British Machine Vision Conference (BMVC)},
+	booktitle   	=   	{Proceedings of the British Machine Vision Conference (BMVC)},
 	year		=	{2020}}
+
+@inproceedings{saunders2021continuous,
+	title		=	{{Continuous 3D Multi-Channel Sign Language Production via Progressive Transformers and Mixture Density Networks}},
+	author		=	{Saunders, Ben and Camgoz, Necati Cihan and Bowden, Richard},
+	booktitle   	=   	{International Journal of Computer Vision (IJCV)},
+	year		=	{2021}}
+
 ```
 
 ## Acknowledgements
