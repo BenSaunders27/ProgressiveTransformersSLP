@@ -1,0 +1,50 @@
+Steps: 10000 Loss: 0.03885| DTW: 30.699| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.001000 *
+Steps: 20000 Loss: 0.01515| DTW: 23.207| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.001000 *
+Steps: 30000 Loss: 0.01603| DTW: 12.470| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.001000 *
+Steps: 40000 Loss: 0.02781| DTW: 11.357| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.001000 *
+Steps: 50000 Loss: 0.03246| DTW: 10.902| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.001000 *
+Steps: 60000 Loss: 0.03320| DTW: 10.764| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.001000 *
+Steps: 70000 Loss: 0.03442| DTW: 10.639| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.001000 *
+Steps: 80000 Loss: 0.03420| DTW: 10.627| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.001000 *
+Steps: 90000 Loss: 0.03550| DTW: 10.642| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.001000 
+Steps: 100000 Loss: 0.03554| DTW: 10.604| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.001000 *
+Steps: 110000 Loss: 0.03583| DTW: 10.656| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.001000 
+Steps: 120000 Loss: 0.03693| DTW: 10.673| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.001000 
+Steps: 130000 Loss: 0.03740| DTW: 10.667| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.001000 
+Steps: 140000 Loss: 0.03729| DTW: 10.619| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.001000 
+Steps: 150000 Loss: 0.03770| DTW: 10.670| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.001000 
+Steps: 160000 Loss: 0.03863| DTW: 10.654| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.001000 
+Steps: 170000 Loss: 0.03848| DTW: 10.646| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.001000 
+Steps: 180000 Loss: 0.03733| DTW: 10.651| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000700 
+Steps: 190000 Loss: 0.03999| DTW: 10.688| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000700 
+Steps: 200000 Loss: 0.04025| DTW: 10.678| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000700 
+Steps: 210000 Loss: 0.04037| DTW: 10.675| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000700 
+Steps: 220000 Loss: 0.04069| DTW: 10.679| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000700 
+Steps: 230000 Loss: 0.04089| DTW: 10.678| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000700 
+Steps: 240000 Loss: 0.04016| DTW: 10.662| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000700 
+Steps: 250000 Loss: 0.04105| DTW: 10.682| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000700 
+Steps: 260000 Loss: 0.04077| DTW: 10.673| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000490 
+Steps: 270000 Loss: 0.04196| DTW: 10.707| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000490 
+Steps: 280000 Loss: 0.04212| DTW: 10.741| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000490 
+Steps: 290000 Loss: 0.04183| DTW: 10.714| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000490 
+Steps: 300000 Loss: 0.04198| DTW: 10.732| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000490 
+Steps: 310000 Loss: 0.04241| DTW: 10.739| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000490 
+Steps: 320000 Loss: 0.04232| DTW: 10.727| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000490 
+Steps: 330000 Loss: 0.04238| DTW: 10.727| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000490 
+Steps: 340000 Loss: 0.04227| DTW: 10.761| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000343 
+Steps: 350000 Loss: 0.04270| DTW: 10.721| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000343 
+Steps: 360000 Loss: 0.04298| DTW: 10.756| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000343 
+Steps: 370000 Loss: 0.04301| DTW: 10.752| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000343 
+Steps: 380000 Loss: 0.04296| DTW: 10.735| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000343 
+Steps: 390000 Loss: 0.04315| DTW: 10.767| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000343 
+Steps: 400000 Loss: 0.04296| DTW: 10.757| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000343 
+Steps: 410000 Loss: 0.04289| DTW: 10.769| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000343 
+Steps: 420000 Loss: 0.04317| DTW: 10.773| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000240 
+Steps: 430000 Loss: 0.04361| DTW: 10.782| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000240 
+Steps: 440000 Loss: 0.04358| DTW: 10.778| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000240 
+Steps: 450000 Loss: 0.04335| DTW: 10.782| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000240 
+Steps: 460000 Loss: 0.04363| DTW: 10.805| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000240 
+Steps: 470000 Loss: 0.04373| DTW: 10.785| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000240 
+Steps: 480000 Loss: 0.04387| DTW: 10.857| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000240 
+Steps: 490000 Loss: 0.04375| DTW: 10.796| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000240 
+Steps: 500000 Loss: 0.04387| DTW: 10.800| Body DTW: nan Hand DTW: nan| GT DTW: nan| LR: 0.000168 
