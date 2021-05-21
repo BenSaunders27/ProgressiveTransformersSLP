@@ -98,7 +98,7 @@ pycups==1.9.73
 pyds9==1.8.1
 pyfits==3.4
 pyflakes==1.6.0
-Pygments==2.2.0
+Pygments==2.7.4
 pygobject==3.26.1
 PyICU==1.9.8
 pyinotify==0.9.6
