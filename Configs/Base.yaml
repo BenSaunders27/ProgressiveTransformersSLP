@@ -9,6 +9,7 @@ data:
 
     max_sent_length: 300 # Max Sentence Length
     skip_frames: 1   # Skip frames in the data, to reduce the data input size
+    src_vocab: "./Configs/src_vocab.txt"
 
 training:
     random_seed: 27   # Random seed for initialisation
