@@ -26,7 +26,7 @@ from plot_videos import plot_video,alter_DTW_timing
 
 class TrainManager:
 
-    def __init__(self, model: Model, config: dict, test=False) -> None:
+    def __init__(self, model: Model, config: dict, test=False, ckpt=None) -> None:
 
         train_config = config["training"]
         model_dir = train_config["model_dir"]
@@ -39,6 +39,7 @@ class TrainManager:
             model_continue = True
 
         # files for logging and storing
+        self.ckpt = ckpt
         self.model_dir = make_model_dir(train_config["model_dir"],
                                         overwrite=train_config.get("overwrite", False),
                                         model_continue=model_continue)
@@ -133,8 +134,9 @@ class TrainManager:
         # If continuing
         if model_continue:
             # Get the latest checkpoint
-            ckpt = get_latest_checkpoint(model_dir)
+            ckpt = self.ckpt
             if ckpt is None:
+                ckpt = get_latest_checkpoint(model_dir)
                 self.logger.info("Can't find checkpoint in directory %s", ckpt)
             else:
                 self.logger.info("Continuing model from %s", ckpt)
@@ -566,15 +568,14 @@ def train(cfg_file: str, ckpt=None) -> None:
     trainer.train_and_validate(train_data=train_data, valid_data=dev_data)
 
     # Test the model with the best checkpoint
-    test(cfg_file)
+    test(cfg_file, ckpt)
 
 # pylint: disable-msg=logging-too-many-args
-def test(cfg_file,
-         ckpt: str) -> None:
+def test(cfg_file,ckpt=None) -> None:
 
     # Load the config file
     cfg = load_config(cfg_file)
-
+    print('testing')
     # Load the model directory and checkpoint
     model_dir = cfg["training"]["model_dir"]
     # when checkpoint is not specified, take latest (best) from model dir
@@ -609,7 +610,7 @@ def test(cfg_file,
         model.cuda()
 
     # Set up trainer to produce videos
-    trainer = TrainManager(model=model, config=cfg, test=True)
+    trainer = TrainManager(model=model, config=cfg, test=True, ckpt=ckpt)
 
     # For each of the required data, produce results
     for data_set_name, data_set in data_to_predict.items():
