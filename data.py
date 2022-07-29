@@ -1,247 +1,313 @@
-# coding: utf-8
-"""
-Data module
-"""
-import sys
+import glob
+import gzip
 import os
-import os.path
-from typing import Optional
-import io
+import pickle
+import random
+from einops import rearrange
 
-# from torchtext.datasets import TranslationDataset
-from torchtext import data
-from torchtext.data import Dataset, Iterator, Field
+import pandas as pd
 import torch
+from torch.utils.data import Dataset
 
-from constants import UNK_TOKEN, EOS_TOKEN, BOS_TOKEN, PAD_TOKEN, TARGET_PAD
-from vocabulary import build_vocab, Vocabulary
-
-# Load the Regression Data
-# Data format should be parallel .txt files for src, trg and files
-# Each line of the .txt file represents a new sequence, in the same order in each file
-# src file should contain a new source input on each line
-# trg file should contain skeleton data, with each line a new sequence, each frame following on from the previous
-# Joint values were divided by 3 to move to the scale of -1 to 1
-# Each joint value should be separated by a space; " "
-# Each frame is partioned using the known trg_size length, which includes all joints (In 2D or 3D) and the counter
-# Files file should contain the name of each sequence on a new line
-def load_data(cfg: dict) -> (Dataset, Dataset, Optional[Dataset],
-                                  Vocabulary, Vocabulary):
-    """
-    Load train, dev and optionally test data as specified in configuration.
-    Vocabularies are created from the training set with a limit of `voc_limit`
-    tokens and a minimum token frequency of `voc_min_freq`
-    (specified in the configuration dictionary).
-
-    The training data is filtered to include sentences up to `max_sent_length`
-    on source and target side.
-
-    :param data_cfg: configuration dictionary for data
-        ("data" part of configuation file)
-    :return:
-        - train_data: training dataset
-        - dev_data: development dataset
-        - test_data: testdata set if given, otherwise None
-        - src_vocab: source vocabulary extracted from training data
-        - trg_vocab: target vocabulary extracted from training data
-    """
-    data_cfg = cfg["data"]
-    # Source, Target and Files postfixes
-    src_lang = data_cfg["src"]
-    trg_lang = data_cfg["trg"]
-    files_lang = data_cfg.get("files", "files")
-    # Train, Dev and Test Path
-    train_path = data_cfg["train"]
-    dev_path = data_cfg["dev"]
-    test_path = data_cfg["test"]
-
-    level = "word"
-    lowercase = False
-    max_sent_length = data_cfg["max_sent_length"]
-    # Target size is plus one due to the counter required for the model
-    trg_size = cfg["model"]["trg_size"] + 1
-    # Skip frames is used to skip a set proportion of target frames, to simplify the model requirements
-    skip_frames = data_cfg.get("skip_frames", 1)
-
-    EOS_TOKEN = '</s>'
-    tok_fun = lambda s: list(s) if level == "char" else s.split()
-
-    # Source field is a tokenised version of the source words
-    src_field = data.Field(init_token=None, eos_token=EOS_TOKEN,
-                           pad_token=PAD_TOKEN, tokenize=tok_fun,
-                           batch_first=True, lower=lowercase,
-                           unk_token=UNK_TOKEN,
-                           include_lengths=True)
-
-    # Files field is just a raw text field
-    files_field = data.RawField()
-
-    def tokenize_features(features):
-        features = torch.as_tensor(features)
-        ft_list = torch.split(features, 1, dim=0)
-        return [ft.squeeze() for ft in ft_list]
-
-    def stack_features(features, something):
-        return torch.stack([torch.stack(ft, dim=0) for ft in features], dim=0)
-
-    # Creating a regression target field
-    # Pad token is a vector of output size, containing the constant TARGET_PAD
-    reg_trg_field = data.Field(sequential=True,
-                               use_vocab=False,
-                               dtype=torch.float32,
-                               batch_first=True,
-                               include_lengths=False,
-                               pad_token=torch.ones((trg_size,))*TARGET_PAD,
-                               preprocessing=tokenize_features,
-                               postprocessing=stack_features,)
-
-    # Create the Training Data, using the SignProdDataset
-    train_data = SignProdDataset(path=train_path,
-                                    exts=("." + src_lang, "." + trg_lang, "." + files_lang),
-                                    fields=(src_field, reg_trg_field, files_field),
-                                    trg_size=trg_size,
-                                    skip_frames=skip_frames,
-                                    filter_pred=
-                                    lambda x: len(vars(x)['src'])
-                                    <= max_sent_length
-                                    and len(vars(x)['trg'])
-                                    <= max_sent_length)
-
-    src_max_size = data_cfg.get("src_voc_limit", sys.maxsize)
-    src_min_freq = data_cfg.get("src_voc_min_freq", 1)
-    src_vocab_file = data_cfg.get("src_vocab", None)
-    src_vocab = build_vocab(field="src", min_freq=src_min_freq,
-                            max_size=src_max_size,
-                            dataset=train_data, vocab_file=src_vocab_file)
-
-    # Create a target vocab just as big as the required target vector size -
-    # So that len(trg_vocab) is # of joints + 1 (for the counter)
-    trg_vocab = [None]*trg_size
-
-    # Create the Validation Data
-    dev_data = SignProdDataset(path=dev_path,
-                                  exts=("." + src_lang, "." + trg_lang, "." + files_lang),
-                                  trg_size=trg_size,
-                                  fields=(src_field, reg_trg_field, files_field),
-                                  skip_frames=skip_frames)
-
-    # Create the Testing Data
-    test_data = SignProdDataset(
-        path=test_path,
-        exts=("." + src_lang, "." + trg_lang, "." + files_lang),
-        trg_size=trg_size,
-        fields=(src_field, reg_trg_field, files_field),
-        skip_frames=skip_frames)
-
-    src_field.vocab = src_vocab
-
-    return train_data, dev_data, test_data, src_vocab, trg_vocab
+from utils import load_dirs, load_json
 
 
-# pylint: disable=global-at-module-level
-global max_src_in_batch, max_tgt_in_batch
+def get_random_seq(seq, seq_len):
+    start = random.randrange(0, len(seq) + 1 - seq_len)
+    end = start + seq_len
+    return seq[start : end]
 
-# pylint: disable=unused-argument,global-variable-undefined
-def token_batch_size_fn(new, count, sofar):
-    """Compute batch size based on number of tokens (+padding)."""
-    global max_src_in_batch, max_tgt_in_batch
-    if count == 1:
-        max_src_in_batch = 0
-        max_tgt_in_batch = 0
-    max_src_in_batch = max(max_src_in_batch, len(new.src))
-    src_elements = count * max_src_in_batch
-    if hasattr(new, 'trg'):  # for monolingual data sets ("translate" mode)
-        max_tgt_in_batch = max(max_tgt_in_batch, len(new.trg) + 2)
-        tgt_elements = count * max_tgt_in_batch
+
+def load_data(
+    dataset_type, 
+    train_trans_path = None, 
+    valid_trans_path = None, 
+    test_trans_path = None, 
+    seq_len = -1, 
+    min_seq_len = -1,
+    normalize = True
+):
+    assert dataset_type in ['phoenix', 'how2sign'], 'dataset must be selected between phoenix or how2sign.'
+    
+    if dataset_type == 'how2sign':
+        root, _ = os.path.split(train_trans_path)
+
+        # define joint paths
+        tr_joint_path = os.path.join(root, 'train_2D_keypoints', 'json')
+        val_joint_path = os.path.join(root, 'val_2D_keypoints', 'json')
+        tst_joint_path = os.path.join(root, 'test_2D_keypoints', 'json')
+
+        # tr_joint_feat_path = os.path.join(root, 'train_feat')
+        # val_joint_feat_path = os.path.join(root, 'val_feat')
+        # tst_joint_feat_path = os.path.join(root, 'val_feat')
+
+        trainset = How2SignDataset(
+            trans_path = train_trans_path, 
+            joint_path = tr_joint_path, 
+            seq_len = seq_len, 
+            min_seq_len = min_seq_len,
+            normalize = normalize
+        )
+        
+        validset = How2SignDataset(
+            trans_path = valid_trans_path, 
+            joint_path = val_joint_path, 
+            seq_len = seq_len, 
+            min_seq_len = min_seq_len,
+            normalize = normalize
+        )
+
+        testset = How2SignDataset(
+            trans_path = test_trans_path, 
+            joint_path = tst_joint_path, 
+            seq_len = seq_len, 
+            min_seq_len = min_seq_len,
+            normalize = normalize
+        )
+    
+    elif dataset_type == 'phoenix':
+        trainset = Phoenix2014TDataset(
+            fpath = train_trans_path, 
+            min_seq_len = min_seq_len, 
+            seq_len = seq_len,
+            normalize = normalize
+        )
+
+        validset = Phoenix2014TDataset(
+            fpath = valid_trans_path, 
+            min_seq_len = min_seq_len, 
+            seq_len = seq_len,
+            normalize = normalize
+        )
+        
+        testset = Phoenix2014TDataset(
+            fpath = test_trans_path, 
+            min_seq_len = min_seq_len, 
+            seq_len = seq_len,
+            normalize = normalize
+        )
     else:
-        tgt_elements = 0
-    return max(src_elements, tgt_elements)
+        raise NotImplementedError
+    
+    return trainset, validset, testset
 
 
-def make_data_iter(dataset: Dataset,
-                   batch_size: int,
-                   batch_type: str = "sentence",
-                   train: bool = False,
-                   shuffle: bool = False) -> Iterator:
-    """
-    Returns a torchtext iterator for a torchtext dataset.
+class How2SignDataset(Dataset):
+    def __init__(
+        self, 
+        trans_path, 
+        joint_path,
+        feat_path = None, 
+        seq_len = -1, 
+        min_seq_len = -1,
+        normalize = True
+    ):
+        super().__init__()
 
-    :param dataset: torchtext dataset containing src and optionally trg
-    :param batch_size: size of the batches the iterator prepares
-    :param batch_type: measure batch size by sentence count or by token count
-    :param train: whether it's training time, when turned off,
-        bucketing, sorting within batches and shuffling is disabled
-    :param shuffle: whether to shuffle the data before each epoch
-        (no effect if set to True for testing)
-    :return: torchtext iterator
-    """
+        data = self._load_df(
+            dataframe = pd.read_csv(trans_path, sep='\t'), 
+            joint_path = joint_path, 
+            min_seq_len = min_seq_len
+        )
 
-    batch_size_fn = token_batch_size_fn if batch_type == "token" else None
+        if feat_path != None:
+            num_processed = len(glob.glob(os.path.join(feat_path, '*')))
+            assert len(data) == num_processed, f'These files must match: {len(data)} vs. {num_processed}.'
+            
+        self.max_seq_len = data.FRAME_LENGTH.max()
+        self.min_seq_len = data.FRAME_LENGTH.min()
+        
+        self.seq_len = seq_len
+        self.min_len = min_seq_len
+        self.joint_path = joint_path
+        self.trans_path = trans_path
+        
+        self.feat_path = feat_path
 
-    if train:
-        # optionally shuffle and sort during training
-        data_iter = data.BucketIterator(
-            repeat=False, sort=False, dataset=dataset,
-            batch_size=batch_size, batch_size_fn=batch_size_fn,
-            train=True, sort_within_batch=True,
-            sort_key=lambda x: len(x.src), shuffle=shuffle)
-    else:
-        # don't sort/shuffle for validation/inference
-        data_iter = data.BucketIterator(
-            repeat=False, dataset=dataset,
-            batch_size=batch_size, batch_size_fn=batch_size_fn,
-            train=False, sort=False)
+        self.data = data
 
-    return data_iter
+        self.normalize = normalize
+        
+    def _load_df(self, dataframe, joint_path, min_seq_len):
+        joint_dir_list = []
+        frame_len_list = []
+        
+        for i in range(len(dataframe)):
+            data = dataframe.iloc[i]
+            skel_id = data['SENTENCE_NAME']
+            skel_dir = os.path.join(joint_path, skel_id)
+            frame_len = len(glob.glob(os.path.join(skel_dir, '*')))
+            joint_dir_list.append(skel_dir)
+            frame_len_list.append(frame_len)
+        
+        dataframe['JOINT_DIR'] = joint_dir_list
+        dataframe['FRAME_LENGTH'] = frame_len_list
 
-# Main Dataset Class
-class SignProdDataset(data.Dataset):
-    """Defines a dataset for machine translation."""
+        if min_seq_len != -1:
+            dataframe.drop(dataframe[dataframe.FRAME_LENGTH < min_seq_len].index, inplace = True)
 
-    def __init__(self, path, exts, fields, trg_size, skip_frames=1, **kwargs):
-        """Create a TranslationDataset given paths and fields.
+        return dataframe
 
-        Arguments:
-            path: Common prefix of paths to the data files for both languages.
-            exts: A tuple containing the extension to path for each language.
-            fields: A tuple containing the fields that will be used for data
-                in each language.
-            Remaining keyword arguments: Passed to the constructor of
-                data.Dataset.
-        """
+    def _load_skeleton(self, signs):
+        POSE_IDX = 8 # Upper body pose
+        skel_list = []
+        
+        for l in signs:
+            json_file = l['people'][0]
+            
+            pose = json_file['pose_keypoints_2d']
+            del pose[2::3]
+            del pose[POSE_IDX*2:]
+            
+            landmark = json_file['face_keypoints_2d']
+            del landmark[2::3]
+            
+            right_hand = json_file['hand_right_keypoints_2d']
+            del right_hand[2::3]
+            
+            left_hand = json_file['hand_left_keypoints_2d']
+            del left_hand[2::3]
+            
+            skel_list += [pose + right_hand + left_hand + landmark]
+        
+        return torch.Tensor(skel_list)
 
-        if not isinstance(fields[0], (tuple, list)):
-            fields = [('src', fields[0]), ('trg', fields[1]), ('file_paths', fields[2])]
+    def __getitem__(self, index):
+        data = self.data.iloc[index]
+        
+        id = data['SENTENCE_NAME']
+        text = data['SENTENCE']
+        joint_dir = data['JOINT_DIR']
+        frame_len = data['FRAME_LENGTH']
+        
+        joint_dirs = load_dirs(os.path.join(joint_dir, '*'))
+        joint_feats = self._load_skeleton([load_json(jd) for jd in joint_dirs])
+        
+        if self.seq_len != -1:
+            joint_feats = get_random_seq(joint_feats, self.seq_len)
+            frame_len = len(joint_feats)
+        
+        if self.feat_path != None:
+            processed_joint_dirs = glob.glob(os.path.join(self.feat_path, id, '*'))
+            processed_joint_dirs = sorted(processed_joint_dirs)
 
-        src_path, trg_path, file_path = tuple(os.path.expanduser(path + x) for x in exts)
+            joint_input_ids = torch.load(processed_joint_dirs[0])
+            joint_input_logits = torch.load(processed_joint_dirs[1])
+            joint_pad_mask = torch.load(processed_joint_dirs[2])
+        else:
+            joint_input_ids, joint_input_logits, joint_pad_mask = None, None, None
+        
+        joint_feats = rearrange(joint_feats, 't (v c) -> t v c', c = 2)
+        t, v, c = joint_feats.size()
+        
+        if self.normalize:
+            dist = (joint_feats[:, 2, :] - joint_feats[:, 5, :]).pow(2).sum(-1).sqrt()
+            joint_feats /= (dist / 300).view(dist.size(0), 1, 1).repeat(1, v, c)
+            
+            center = torch.ones(joint_feats[:, 1, :].size())
+            center[:, 0] *= (1400 // 2)
+            center[:, 1] *= (1050 // 2)
+            joint_feats -= (joint_feats[:, 1, :] - center).unsqueeze(1).repeat(1, v, 1)
 
-        examples = []
-        # Extract the parallel src, trg and file files
-        with io.open(src_path, mode='r', encoding='utf-8') as src_file, \
-                io.open(trg_path, mode='r', encoding='utf-8') as trg_file, \
-                    io.open(file_path, mode='r', encoding='utf-8') as files_file:
+            joint_feats[:, :, :1] /= (1400 * 2.5)
+            joint_feats[:, :, 1:] /= (1050 * 2.5)
 
-            i = 0
-            # For Source, Target and FilePath
-            for src_line, trg_line, files_line in zip(src_file, trg_file, files_file):
-                i+= 1
+            joint_feats += 0.3 # numeric stable
 
-                # Strip away the "\n" at the end of the line
-                src_line, trg_line, files_line = src_line.strip(), trg_line.strip(), files_line.strip()
+        return {
+            'id': id,
+            'text': text,
+            'joint_feats': joint_feats,
+            'frame_len': frame_len,
+            'joint_input_ids': joint_input_ids,
+            'joint_pad_mask': joint_pad_mask,
+            'joint_input_logits': joint_input_logits
+        }
+        
+    def __len__(self):
+        return len(self.data)
 
-                # Split target into joint coordinate values
-                trg_line = trg_line.split(" ")
-                if len(trg_line) == 1:
-                    continue
-                # Turn each joint into a float value, with 1e-8 for numerical stability
-                trg_line = [(float(joint) + 1e-8) for joint in trg_line]
-                # Split up the joints into frames, using trg_size as the amount of coordinates in each frame
-                # If using skip frames, this just skips over every Nth frame
-                trg_frames = [trg_line[i:i + trg_size] for i in range(0, len(trg_line), trg_size*skip_frames)]
 
-                # Create a dataset examples out of the Source, Target Frames and FilesPath
-                if src_line != '' and trg_line != '':
-                    examples.append(data.Example.fromlist(
-                        [src_line, trg_frames, files_line], fields))
+class Phoenix2014TDataset(Dataset):
+    def __init__(
+        self, 
+        fpath, 
+        min_seq_len = -1, 
+        seq_len = -1,
+        normalize = True
+    ):
+        super().__init__()
 
-        super(SignProdDataset, self).__init__(examples, fields, **kwargs)
+        self.seq_len = seq_len
+        self.data = self._load_data(fpath)
+        
+        # filtered by a given length
+        if min_seq_len != -1:
+            self.data = [data for data in self.data if len(data['sign']) > min_seq_len]
+
+        self.normalize = normalize
+
+    def _load_data(self, fpath):
+        with gzip.open(fpath, 'rb') as f:
+            file = pickle.load(f)
+        return file
+    
+    def __getitem__(self, index):
+        data = self.data[index]
+
+        _, id = os.path.split(data['name'])
+        text = data['text']
+        gloss = data['gloss']
+        
+        joint = data['sign']
+        
+        if self.seq_len != -1:
+            joint = get_random_seq(joint, self.seq_len)
+        
+        joint = torch.Tensor(joint)
+        
+        joint = rearrange(joint, 't (v c) -> t v c', c = 2)
+        
+        pose = joint[:, :8, :]
+        landmark = joint[:, 50:, :]
+        
+        landmark *= 0.4
+
+        neck = pose[:, 0]
+        nose = landmark[:, 30]
+
+        diff = neck - nose
+        diff = rearrange(diff, 't v -> t () v').repeat(1, landmark.size(1), 1)
+        landmark += diff
+
+        joint_feats = rearrange(joint, 't v c -> t v c')
+        t, v, c = joint_feats.size()
+
+        if self.normalize:
+            dist = (joint_feats[:, 2, :] - joint_feats[:, 5, :]).pow(2).sum(-1).sqrt()
+            joint_feats /= (dist / 0.3).view(dist.size(0), 1, 1).repeat(1, v, c)
+
+            center = torch.ones(joint_feats[:, 1, :].size()) * 0.5
+            joint_feats -= (joint_feats[:, 1, :] - center).unsqueeze(1).repeat(1, v, 1)
+
+            joint_feats[:, :, :1] /= 1.6
+            joint_feats[:, :, 1:] /= 1.6
+
+            joint_feats += 0.1
+
+        joint_input_ids, joint_input_logits, joint_pad_mask = None, None, None
+
+        return {
+            'id': id,
+            'text': text,
+            'gloss': gloss,
+            'joint_feats': joint_feats,
+            'frame_len': len(joint_feats),
+            'joint_input_ids': joint_input_ids,
+            'joint_pad_mask': joint_pad_mask,
+            'joint_input_logits': joint_input_logits
+        }
+
+    def __len__(self):
+        return len(self.data)
+

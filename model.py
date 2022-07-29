@@ -14,8 +14,9 @@ from encoders import Encoder, TransformerEncoder
 from decoders import Decoder, TransformerDecoder
 from constants import PAD_TOKEN, EOS_TOKEN, BOS_TOKEN, TARGET_PAD
 from search import greedy
-from vocabulary import Vocabulary
+# from vocabulary import Vocabulary
 from batch import Batch
+
 
 class Model(nn.Module):
     """
@@ -23,15 +24,15 @@ class Model(nn.Module):
     """
 
     def __init__(self,
-                 encoder: Encoder,
-                 decoder: Decoder,
-                 src_embed: Embeddings,
-                 trg_embed: Embeddings,
-                 src_vocab: Vocabulary,
-                 trg_vocab: Vocabulary,
-                 cfg: dict,
-                 in_trg_size: int,
-                 out_trg_size: int,
+                 encoder,
+                 decoder,
+                 src_embed,
+                 trg_embed,
+                 src_vocab,
+                 trg_vocab,
+                 cfg,
+                 in_trg_size,
+                 out_trg_size,
                  ) -> None:
         """
         Create a new encoder-decoder model
@@ -54,12 +55,18 @@ class Model(nn.Module):
         self.decoder = decoder
         self.src_vocab = src_vocab
         self.trg_vocab = trg_vocab
-        self.bos_index = self.src_vocab.stoi[BOS_TOKEN]
-        self.pad_index = self.src_vocab.stoi[PAD_TOKEN]
-        self.eos_index = self.src_vocab.stoi[EOS_TOKEN]
+        
+        # self.bos_index = self.src_vocab.stoi[BOS_TOKEN]
+        # self.pad_index = self.src_vocab.stoi[PAD_TOKEN]
+        # self.eos_index = self.src_vocab.stoi[EOS_TOKEN]
+
+        self.bos_index = self.src_vocab.lookup_indices(['bos'])[0]
+        self.pad_index = self.src_vocab.lookup_indices(['pad'])[0]
+        self.eos_index = self.src_vocab.lookup_indices(['eos'])[0]
+
         self.target_pad = TARGET_PAD
 
-        self.use_cuda = cfg["training"]["use_cuda"]
+        # self.use_cuda = cfg["training"]["use_cuda"]
 
         self.in_trg_size = in_trg_size
         self.out_trg_size = out_trg_size
@@ -75,6 +82,8 @@ class Model(nn.Module):
         # Future Prediction - predict for this many frames in the future
         self.future_prediction = model_cfg.get("future_prediction", 0)
 
+        self.out_stds = None
+
     # pylint: disable=arguments-differ
     def forward(self,
                 src: Tensor,
@@ -82,8 +91,7 @@ class Model(nn.Module):
                 src_mask: Tensor,
                 src_lengths: Tensor,
                 trg_mask: Tensor = None,
-                src_input: Tensor = None) -> (
-        Tensor, Tensor, Tensor, Tensor):
+                src_input: Tensor = None):
         """
         First encodes the source sentence.
         Then produces the target one word at a time.
@@ -101,10 +109,10 @@ class Model(nn.Module):
                                                      src_length=src_lengths,
                                                      src_mask=src_mask)
         unroll_steps = trg_input.size(1)
-
+        
         # Add gaussian noise to the target inputs, if in training
         if (self.gaussian_noise) and (self.training) and (self.out_stds is not None):
-
+                
             # Create a normal distribution of random numbers between 0-1
             noise = trg_input.data.new(trg_input.size()).normal_(0, 1)
             # Zero out the noise over the counter
@@ -119,7 +127,7 @@ class Model(nn.Module):
 
             # Add to trg_input multiplied by the noise rate
             trg_input = trg_input + self.noise_rate*noise
-
+        
         # Decode the target sequence
         skel_out, dec_hidden, _, _ = self.decode(encoder_output=encoder_output,
                                                  src_mask=src_mask, trg_input=trg_input,
@@ -143,7 +151,6 @@ class Model(nn.Module):
         encode_output = self.encoder(self.src_embed(src), src_length, src_mask)
 
         return encode_output
-
 
     def decode(self, encoder_output: Tensor,
                src_mask: Tensor, trg_input: Tensor,
@@ -253,8 +260,8 @@ class Model(nn.Module):
 
 
 def build_model(cfg: dict = None,
-                src_vocab: Vocabulary = None,
-                trg_vocab: Vocabulary = None) -> Model:
+                src_vocab = None,
+                trg_vocab = None) -> Model:
     """
     Build and initialize the model according to the configuration.
 
@@ -267,7 +274,8 @@ def build_model(cfg: dict = None,
     full_cfg = cfg
     cfg = cfg["model"]
 
-    src_padding_idx = src_vocab.stoi[PAD_TOKEN]
+    # src_padding_idx = src_vocab.stoi[PAD_TOKEN]
+    src_padding_idx = src_vocab.lookup_indices(['pad'])[0]
     trg_padding_idx = 0
 
     # Input target size is the joint vector length plus one for counter
@@ -313,8 +321,12 @@ def build_model(cfg: dict = None,
     dec_emb_dropout = cfg["decoder"]["embeddings"].get("dropout", dec_dropout)
     decoder_trg_trg = cfg["decoder"].get("decoder_trg_trg", True)
     # Transformer Decoder
+    # decoder = TransformerDecoder(
+    #     **cfg["decoder"], encoder=encoder, vocab_size=len(trg_vocab),
+    #     emb_size=trg_linear.out_features, emb_dropout=dec_emb_dropout,
+    #     trg_size=out_trg_size, decoder_trg_trg_=decoder_trg_trg)
     decoder = TransformerDecoder(
-        **cfg["decoder"], encoder=encoder, vocab_size=len(trg_vocab),
+        **cfg["decoder"], encoder=encoder,
         emb_size=trg_linear.out_features, emb_dropout=dec_emb_dropout,
         trg_size=out_trg_size, decoder_trg_trg_=decoder_trg_trg)
 
