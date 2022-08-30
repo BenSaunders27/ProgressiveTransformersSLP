@@ -43,10 +43,10 @@ model:
     # trg_size: 150  # Size of target skeleton coordinates (150 for Inverse Kinematics body/hands)
     trg_size: 240
     just_count_in: False # Flag for Just Counter Data Augmentation
-    gaussian_noise: False # Flag for Gaussian Noise Data Augmentation
+    gaussian_noise: True # Flag for Gaussian Noise Data Augmentation
     # noise_rate: 5 # Gaussian Noise rate
     noise_rate: 0.001
-    future_prediction: 0 # Future Prediction Data Augmentation if > 0
+    future_prediction: 10 # Future Prediction Data Augmentation if > 0
     encoder:  # Model Encoder
         type: "transformer"
         num_layers: 2 # Number of layers

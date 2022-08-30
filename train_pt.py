@@ -61,7 +61,8 @@ class ProgressiveTransformer(nn.Module):
         )
         
         if future_trg != None:
-            loss = F.mse_loss(outs[:, -(future_trg.size(1)):, :], future_trg, reduction = 'none')
+            outs = outs[:, -(future_trg.size(1)):, :]
+            loss = F.mse_loss(outs, future_trg, reduction = 'none')
             loss = loss.sum(-1)
             loss.masked_fill_(~(loss_mask[:, -(future_trg.size(1)):]), 0.)
             loss = loss.mean()
@@ -70,7 +71,7 @@ class ProgressiveTransformer(nn.Module):
             loss = loss.sum(-1)
             loss.masked_fill_(~(loss_mask), 0.)
             loss = loss.mean()
-
+            
         return loss, outs
 
     def generate(
@@ -101,7 +102,7 @@ class ProgressiveTransformer(nn.Module):
     def add_model_specific_args(parent_parser):
         parser = parent_parser.add_argument_group('arslp')        
         parser.add_argument('--config_path', type = str, default = './Configs/Base.yaml')
-        parser.add_argument('--min_seq_len', type = int, default = -1)
+        parser.add_argument('--min_seq_len', type = int, default = 32)
         return parent_parser
 
 
@@ -118,6 +119,7 @@ class ProgressiveTransformerModule(pl.LightningModule):
         batch_size,
         num_workers,
         lr,
+        save_vids,
         **kwargs
     ):
         super().__init__()
@@ -145,11 +147,12 @@ class ProgressiveTransformerModule(pl.LightningModule):
         
         self.tokenizer = text_tokenizer
         self.model = model
+        self.save_vids = save_vids
         
         self.future_prediction = config['model']['future_prediction']
         self.gaussian_noise = config['model']['gaussian_noise']
         
-        self.all_epoch_noise = []
+        self.std = torch.zeros(240)
 
     def setup(self, stage):
         # load dataset
@@ -170,7 +173,7 @@ class ProgressiveTransformerModule(pl.LightningModule):
         else:
             self.S = 1.5
 
-    def _common_step(self, batch, stage):
+    def _common_step(self, batch, stage, batch_idx):
         id, text, joint, future_trg = batch['id'], batch['text'], batch['joints'], batch['future_trg']
 
         text_input_ids, text_pad_mask = self.tokenizer.encode(
@@ -199,10 +202,9 @@ class ProgressiveTransformerModule(pl.LightningModule):
             future_trg = pad_sequence(future_trg, batch_first = True, padding_value = 0.)
 
         # gaussian noise: follows the author method
-        
         if self.gaussian_noise:
-            if len(self.all_epoch_noise) != 0:
-                self.model.out_stds = torch.mean(torch.stack(([noise.std(dim=[0]) for noise in self.all_epoch_noise])),dim=-2)
+            if torch.sum(self.std) != 0.:
+                self.model.out_stds = self.std
         
         loss, outs = self.model(
             text_input_ids = text_input_ids,
@@ -213,26 +215,31 @@ class ProgressiveTransformerModule(pl.LightningModule):
             future_trg = future_trg if self.future_prediction != 0 else None
         )
         
-        if self.gaussian_noise:
-            with torch.no_grad():
-                noise = outs[:, -(future_trg.size(1)):, :].detach() - future_trg.detach()
-            if self.future_prediction != 0:
-                noise = noise[:, :, :noise.shape[2] // (self.future_prediction)]
-        else:
-            noise = None
-            
-            if self.future_prediction != 0:
-                self.all_epoch_noise.append(noise.reshape(-1, self.model.out_trg_size // self.future_prediction))
-            else:
-                self.all_epoch_noise.append(noise.reshape(-1,self.model.out_trg_size))
-        
         self.log(f'{stage}/loss', loss, batch_size = self.batch_size)
-
+        
         if stage == 'tr':
+            if self.gaussian_noise:
+                with torch.no_grad():
+                    noise = outs.detach() - future_trg.detach()
+                if self.future_prediction != 0:
+                    noise = noise[:, :, :noise.shape[2] // (self.future_prediction)]
+            else:
+                noise = None
+            
+            noise = noise.cpu().detach()
+            
+            if self.gaussian_noise:
+                if self.future_prediction != 0:
+                    noise = rearrange(noise, 'b t d -> (b t) d')
+                    noise_std = noise.std(dim = 0)
+                    self.std += noise_std
+                    if batch_idx != 0:
+                        self.std /= 2
+
             return loss
 
         idx = torch.randperm(text_input_ids.size(0))[:self.num_save]
-
+        
         generated = self.model.generate(
             text_input_ids = text_input_ids[idx],
             text_pad_mask = text_pad_mask[idx],
@@ -246,6 +253,7 @@ class ProgressiveTransformerModule(pl.LightningModule):
         
         return {
             'loss': loss,
+            'id': id,
             'name': name,
             'text': text,
             'origin': origin,
@@ -280,13 +288,60 @@ class ProgressiveTransformerModule(pl.LightningModule):
                 save_sign_video(fpath = os.path.join(vid_save_path, f'{n}.mp4'), hyp = g, ref = o, sent = t, H = H, W = W)
 
     def training_step(self, batch, batch_idx):
-        return self._common_step(batch, 'tr')
+        return self._common_step(batch, 'tr', batch_idx)
 
     def validation_step(self, batch, batch_idx):
-        return self._common_step(batch, 'val')
+        return self._common_step(batch, 'val', batch_idx)
+
+    def test_step(self, batch, batch_idx):
+        return self._common_step(batch, 'tst', batch_idx)
 
     def validation_epoch_end(self, outputs):
         return self._common_epoch_end(outputs, 'val')
+
+    def test_epoch_end(self, outputs):
+        H, W = 256, 256
+        S = self.S
+
+        id_list, text_list, generated_list, origin_list = [], [], [], []
+        for output in outputs:
+            id = output['id']
+            text = output['text']
+            generated = output['generated']
+            origin = output['origin']
+
+            id_list += id
+            text_list += text
+            generated_list += generated
+            origin_list += origin
+
+        if self.logger.save_dir != None:
+            save_path = os.path.join(self.logger.save_dir, self.logger.name, f'version_{str(self.logger.version)}/test_outputs')
+            if not os.path.exists(save_path):
+                os.makedirs(save_path)
+
+            # save generated joint outputs
+            outputs = {
+                'outputs': generated_list,
+                'reference': origin_list,
+                'texts': text_list,
+                'ids': id_list
+            }
+
+            torch.save(outputs, os.path.join(save_path, 'outputs.pt'))
+            
+            if not self.save_vids:
+                return
+            
+            _iter = zip(origin_list[:self.num_save], generated_list[:self.num_save], id_list[:self.num_save], text_list[:self.num_save])
+            for j, d, id, text in _iter:
+                if len(j.size()) == 2:
+                    j, d = map(lambda x: rearrange(x, 't (v c) -> t v c', c = 2), [j, d])
+                
+                origin = postprocess(j, H, W, S)
+                generated = postprocess(d, H, W, S)
+                
+                save_sign_video(os.path.join(save_path, f'{id}.mp4'), generated, origin, text, H, W)
 
     def configure_optimizers(self):
         optim = torch.optim.Adam(self.parameters(), lr = self.lr)
@@ -330,7 +385,7 @@ class ProgressiveTransformerModule(pl.LightningModule):
     def test_dataloader(self):
         return DataLoader(
             self.testset, 
-            batch_size = 1, 
+            batch_size = self.batch_size, 
             shuffle = False, 
             num_workers = self.num_worker, 
             collate_fn = self._collate_fn
@@ -410,11 +465,16 @@ def main(hparams):
     if hparams.use_early_stopping:
         callbacks_list.append(early_stopping)
     
-    logger = module.get_logger('tensorboard', name = 'pt')
+    logger = module.get_logger('tensorboard', name = hparams.log_name)
     hparams.logger = logger
     
     trainer = pl.Trainer.from_argparse_args(hparams, callbacks = callbacks_list)
-    trainer.fit(module)
+
+    if not hparams.test:
+        trainer.fit(module)
+    else:
+        assert hparams.ckpt != None, 'Trained checkpoint must be provided.'
+        trainer.test(module, ckpt_path = hparams.ckpt)
 
 
 if __name__=='__main__':
@@ -436,6 +496,11 @@ if __name__=='__main__':
     parser.add_argument('--lr', type = float, default = 1e-3)
     parser.add_argument('--use_early_stopping', action = 'store_true')
     parser.add_argument('--gradient_clip_val', type = float, default = 0.0)
+    parser.add_argument('--test', action = 'store_true')
+    parser.add_argument('--save_vids', action = 'store_true')
+    parser.add_argument('--log_name', type = str, default = 'pt_for_phoenix')
+    parser.add_argument('--ckpt', default = None)
+
     parser = ProgressiveTransformer.add_model_specific_args(parser)
 
     hparams = parser.parse_args()
@@ -443,8 +508,3 @@ if __name__=='__main__':
     main(hparams)
 
 
-'''
-python train_pt.py \
-    --accelerator gpu --devices 0 \
-    --num_worker 8 --batch_size 32
-'''
