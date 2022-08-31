@@ -6,8 +6,8 @@ import torch
 import torch.nn as nn
 import yaml
 from einops import rearrange
-from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
-from pytorch_lightning.loggers import TensorBoardLogger
+from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint, LearningRateMonitor
+from pytorch_lightning.loggers import TensorBoardLogger, WandbLogger
 from torch.nn import functional as F
 from torch.nn.utils.rnn import pad_sequence
 from torch.utils.data import DataLoader
@@ -120,6 +120,7 @@ class ProgressiveTransformerModule(pl.LightningModule):
         num_workers,
         lr,
         save_vids,
+        output_dir,
         **kwargs
     ):
         super().__init__()
@@ -137,6 +138,7 @@ class ProgressiveTransformerModule(pl.LightningModule):
         self.batch_size = batch_size
         self.num_worker = num_workers
         self.lr = lr
+        self.output_dir = output_dir
 
         text_vocab = build_vocab_from_phoenix(train_path, white_space_tokenizer, mode = 'text')
         text_tokenizer = SimpleTokenizer(white_space_tokenizer, text_vocab)
@@ -223,11 +225,10 @@ class ProgressiveTransformerModule(pl.LightningModule):
                     noise = outs.detach() - future_trg.detach()
                 if self.future_prediction != 0:
                     noise = noise[:, :, :noise.shape[2] // (self.future_prediction)]
+                noise = noise.cpu().detach()
             else:
                 noise = None
-            
-            noise = noise.cpu().detach()
-            
+
             if self.gaussian_noise:
                 if self.future_prediction != 0:
                     noise = rearrange(noise, 'b t d -> (b t) d')
@@ -435,6 +436,7 @@ class ProgressiveTransformerModule(pl.LightningModule):
             verbose = True
         )
         ckpt_callback = ModelCheckpoint(
+            dirpath=self.output_dir,
             filename = 'epoch={epoch}-val_loss={val/loss:.2f}', 
             monitor = monitor, 
             save_last = True, 
@@ -443,11 +445,15 @@ class ProgressiveTransformerModule(pl.LightningModule):
             verbose = True,
             auto_insert_metric_name = False
         )
-        return early_stopping_callback, ckpt_callback
+        lr_monitor = LearningRateMonitor(logging_interval='step')
 
-    def get_logger(self, type = 'tensorboard', name = 'slp'):
-        if type == 'tensorboard':
+        return early_stopping_callback, ckpt_callback, lr_monitor
+
+    def get_logger(self, logger_type = 'tensorboard', name = 'slp'):
+        if logger_type == 'tensorboard':
             logger = TensorBoardLogger("slp_logs", name = name)
+        elif logger_type == 'wandb':
+            logger = WandbLogger(project=name, save_dir=self.output_dir)
         else:
             raise NotImplementedError
         return logger
@@ -458,14 +464,14 @@ def main(hparams):
     
     module = ProgressiveTransformerModule(**vars(hparams))
     
-    early_stopping, ckpt = module.get_callback_fn('val/loss', 50)
+    early_stopping, ckpt, lr_monitor = module.get_callback_fn('val/loss', 50)
     
-    callbacks_list = [ckpt]
+    callbacks_list = [ckpt, lr_monitor]
 
     if hparams.use_early_stopping:
         callbacks_list.append(early_stopping)
     
-    logger = module.get_logger('tensorboard', name = hparams.log_name)
+    logger = module.get_logger('wandb', name = hparams.log_name)
     hparams.logger = logger
     
     trainer = pl.Trainer.from_argparse_args(hparams, callbacks = callbacks_list)
@@ -485,8 +491,8 @@ if __name__=='__main__':
     parser.add_argument('--train_path', default = '/home/ejhwang/projects/phoenix14t/data/phoenix14t.pose.train')
     parser.add_argument('--valid_path', default = '/home/ejhwang/projects/phoenix14t/data/phoenix14t.pose.dev')
     parser.add_argument('--test_path', default = '/home/ejhwang/projects/phoenix14t/data/phoenix14t.pose.test')
-    parser.add_argument("--batch_size", type = int, default = 2)
-    parser.add_argument("--num_workers", type = int, default = 0)
+    parser.add_argument("--batch_size", type = int, default = 32)
+    parser.add_argument("--num_workers", type = int, default = 12)
     parser.add_argument("--max_epochs", type = int, default = 500)
     parser.add_argument('--check_val_every_n_epoch', type = int, default = 3)
     parser.add_argument('--accelerator', default = 'gpu')
@@ -494,11 +500,12 @@ if __name__=='__main__':
     parser.add_argument('--strategy', default = None)
     parser.add_argument('--num_save', type = int, default = 3)
     parser.add_argument('--lr', type = float, default = 1e-3)
-    parser.add_argument('--use_early_stopping', action = 'store_true')
+    parser.add_argument('--use_early_stopping', action = 'store_true', default=True)
     parser.add_argument('--gradient_clip_val', type = float, default = 0.0)
     parser.add_argument('--test', action = 'store_true')
     parser.add_argument('--save_vids', action = 'store_true')
-    parser.add_argument('--log_name', type = str, default = 'pt_for_phoenix')
+    parser.add_argument('--log_name', type = str, default = 'pt-phoenix-base')
+    parser.add_argument('--output_dir', default='output/')
     parser.add_argument('--ckpt', default = None)
 
     parser = ProgressiveTransformer.add_model_specific_args(parser)
@@ -508,3 +515,4 @@ if __name__=='__main__':
     main(hparams)
 
 
+# --test --ckpt output/last.ckpt --save_vids --num_save 20
