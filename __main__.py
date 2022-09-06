@@ -9,7 +9,7 @@ def main():
     # train ./Configs/Base.yaml
     # test ./Configs/Base.yaml
 
-    ap = argparse.ArgumentParser("Progressive Transformers")
+    ap = argparse.ArgumentParser("SignLanguageProducer")
 
     # Choose between Train and Test
     ap.add_argument("mode", choices=["train", "test"],
