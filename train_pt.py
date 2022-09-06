@@ -64,12 +64,12 @@ class ProgressiveTransformer(nn.Module):
             outs = outs[:, -(future_trg.size(1)):, :]
             loss = F.mse_loss(outs, future_trg, reduction = 'none')
             loss = loss.sum(-1)
-            loss.masked_fill_(~(loss_mask[:, -(future_trg.size(1)):]), 0.)
+            # loss.masked_fill_(~(loss_mask[:, -(future_trg.size(1)):]), 0.)
             loss = loss.mean()
         else:
             loss = F.mse_loss(outs, joint_inputs, reduction = 'none')
             loss = loss.sum(-1)
-            loss.masked_fill_(~(loss_mask), 0.)
+            # loss.masked_fill_(~(loss_mask), 0.)
             loss = loss.mean()
             
         return loss, outs
@@ -496,7 +496,7 @@ if __name__=='__main__':
     parser.add_argument("--max_epochs", type = int, default = 500)
     parser.add_argument('--check_val_every_n_epoch', type = int, default = 3)
     parser.add_argument('--accelerator', default = 'gpu')
-    parser.add_argument('--devices', nargs = '+', type = int, default = [1])
+    parser.add_argument('--devices', nargs = '+', type = int, default = [2])
     parser.add_argument('--strategy', default = None)
     parser.add_argument('--num_save', type = int, default = 3)
     parser.add_argument('--lr', type = float, default = 1e-3)
@@ -515,4 +515,4 @@ if __name__=='__main__':
     main(hparams)
 
 
-# --test --ckpt output/last.ckpt --save_vids --num_save 20
+# --test --ckpt output/last.ckpt --save_vids --num_save 5
