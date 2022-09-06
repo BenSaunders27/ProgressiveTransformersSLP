@@ -630,6 +630,7 @@ def test(cfg_file,
                 type="val" if not data_set_name is "train" else "train_inf"
             )
 
+
         # Set which sequences to produce video for
         display = list(range(len(hypotheses)))
 
