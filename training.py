@@ -4,7 +4,7 @@ import shutil
 import os
 import queue
 import numpy as np
-
+import logging
 import torch
 from torch import Tensor
 from torch.utils.tensorboard import SummaryWriter
@@ -571,12 +571,14 @@ def train(cfg_file: str, ckpt=None) -> None:
 # pylint: disable-msg=logging-too-many-args
 def test(cfg_file,
          ckpt: str) -> None:
-
+    logger = logging.getLogger()
+    logger.setLevel(logging.INFO)
     # Load the config file
     cfg = load_config(cfg_file)
-
+    
     # Load the model directory and checkpoint
     model_dir = cfg["training"]["model_dir"]
+    
     # when checkpoint is not specified, take latest (best) from model dir
     if ckpt is None:
         ckpt = get_latest_checkpoint(model_dir,post_fix="_best")
@@ -643,7 +645,7 @@ def test(cfg_file,
         )
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser("Progressive Transformers")
+    parser = argparse.ArgumentParser("SignLanguageProducer")
     parser.add_argument("config", default="configs/default.yaml", type=str,
                         help="Training configuration file (yaml).")
     args = parser.parse_args()
