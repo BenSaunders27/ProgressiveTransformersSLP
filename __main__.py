@@ -1,5 +1,5 @@
 import argparse
-
+import logging
 from training import train, test
 
 
@@ -24,9 +24,13 @@ def main():
 
     args = ap.parse_args()
 
+    logger = logging.getLogger()
+    logger.setLevel(logging.INFO)
+    logger.info(args.ckpt, "@@@@@@@@@@@@@@@@@@@@@")
     # If Train
     if args.mode == "train":
         train(cfg_file=args.config_path, ckpt=args.ckpt)
+    
     # If Test
     elif args.mode == "test":
         test(cfg_file=args.config_path, ckpt=args.ckpt)

@@ -1,20 +1,24 @@
+import pickle
 import argparse
+from pyexpat import model
 import time
 import shutil
 import os
 import queue
+from torch.autograd import Variable
 import numpy as np
 import logging
+import sys
 import torch
 from torch import Tensor
 from torch.utils.tensorboard import SummaryWriter
 from torchtext.data import Dataset
+from torch import nn, optim
 
-from model import build_model
 from batch import Batch
 from helpers import  load_config, log_cfg, load_checkpoint, make_model_dir, \
     make_logger, set_seed, symlink_update, ConfigurationError, get_latest_checkpoint
-from model import Model
+from model import Discriminator, Generator, build_model
 from prediction import validate_on_data
 from loss import RegLoss, XentLoss
 from data import load_data, make_data_iter
@@ -26,7 +30,7 @@ from plot_videos import plot_video,alter_DTW_timing
 
 class TrainManager:
 
-    def __init__(self, model: Model, config: dict, test=False) -> None:
+    def __init__(self, discriminator: Discriminator, generator: Generator, config: dict, test=False) -> None:
 
         train_config = config["training"]
         model_dir = train_config["model_dir"]
@@ -50,9 +54,10 @@ class TrainManager:
         self.tb_writer = SummaryWriter(log_dir=self.model_dir+"/tensorboard/")
 
         # model
-        self.model = model
-        self.pad_index = self.model.pad_index
-        self.bos_index = self.model.bos_index
+        self.generator = generator
+        self.discriminator = discriminator
+        self.pad_index = self.generator.pad_index
+        self.bos_index = self.generator.bos_index
         self._log_parameters_list()
         self.target_pad = TARGET_PAD
 
@@ -65,7 +70,8 @@ class TrainManager:
         # optimization
         self.learning_rate_min = train_config.get("learning_rate_min", 1.0e-8)
         self.clip_grad_fun = build_gradient_clipper(config=train_config)
-        self.optimizer = build_optimizer(config=train_config, parameters=model.parameters())
+        self.optimizer_g = build_optimizer(config=train_config, parameters=generator.parameters())
+        self.optimizer_d = build_optimizer(config=train_config, parameters=discriminator.parameters())
 
         # validation & early stopping
         self.validation_freq = train_config.get("validation_freq", 1000)
@@ -95,7 +101,7 @@ class TrainManager:
         self.scheduler, self.scheduler_step_at = build_scheduler(
             config=train_config,
             scheduler_mode="min" if self.minimize_metric else "max",
-            optimizer=self.optimizer,
+            optimizer=self.optimizer_g,
             hidden_size=config["model"]["encoder"]["hidden_size"])
 
         # data & batch handling
@@ -114,7 +120,8 @@ class TrainManager:
         # CPU / GPU
         self.use_cuda = train_config["use_cuda"]
         if self.use_cuda:
-            self.model.cuda()
+            self.generator.cuda()
+            self.discriminator.cuda()
             self.loss.cuda()
 
         # initialize training statistics
@@ -170,8 +177,10 @@ class TrainManager:
             "total_tokens": self.total_tokens,
             "best_ckpt_score": self.best_ckpt_score,
             "best_ckpt_iteration": self.best_ckpt_iteration,
-            "model_state": self.model.state_dict(),
-            "optimizer_state": self.optimizer.state_dict(),
+            "model_g_state": self.generator.state_dict(),
+            "model_d_state": self.discriminator.state_dict(),
+            "optimizer_g_state": self.optimizer_g.state_dict(),
+            "optimizer_d_state": self.optimizer_d.state_dict(),
             "scheduler_state": self.scheduler.state_dict() if \
             self.scheduler is not None else None,
         }
@@ -222,8 +231,10 @@ class TrainManager:
         model_checkpoint = load_checkpoint(path=path, use_cuda=self.use_cuda)
 
         # restore model and optimizer parameters
-        self.model.load_state_dict(model_checkpoint["model_state"])
-        self.optimizer.load_state_dict(model_checkpoint["optimizer_state"])
+        self.generator.load_state_dict(model_checkpoint["model_g_state"])
+        self.discriminator.load_state_dict(model_checkpoint["model_d_state"])
+        self.optimizer_g.load_state_dict(model_checkpoint["optimizer_g_state"])
+        self.optimizer_d.load_state_dict(model_checkpoint["optimizer_d_state"])
 
         if model_checkpoint["scheduler_state"] is not None and \
                 self.scheduler is not None:
@@ -238,7 +249,8 @@ class TrainManager:
 
         # move parameters to cuda
         if self.use_cuda:
-            self.model.cuda()
+            self.generator.cuda()
+            self.discriminator.cuda()
 
     # Train and validate function
     def train_and_validate(self, train_data: Dataset, valid_data: Dataset) \
@@ -248,10 +260,28 @@ class TrainManager:
                                     batch_size=self.batch_size,
                                     batch_type=self.batch_type,
                                     train=True, shuffle=self.shuffle)
-
+        
         val_step = 0
+        real_label = 1
+        fake_label = 0
+        
+        # self.criterion = nn.BCELoss
+        
+        # label = torch.FloatTensor(self.batch_size)
+        # one_hot_labels = torch.FloatTensor(self.batch_size, 2)
+
         if self.gaussian_noise:
             all_epoch_noise = []
+
+
+        f = open('./skeleton_output.txt', 'w')
+        f2 = open('./skeleton_input.txt', 'w')
+        f3 = open('./gloss_text.txt', 'w')
+
+        self.skeleton_output = []
+        self.skeleton_input = []
+        self.gloss_text = []
+
         # Loop through epochs
         for epoch_no in range(self.epochs):
             self.logger.info("EPOCH %d", epoch_no + 1)
@@ -259,7 +289,8 @@ class TrainManager:
             if self.scheduler is not None and self.scheduler_step_at == "epoch":
                 self.scheduler.step(epoch=epoch_no)
 
-            self.model.train()
+            self.generator.train()
+            self.discriminator.train()
 
             # Reset statistics for each epoch.
             start = time.time()
@@ -267,23 +298,26 @@ class TrainManager:
             start_tokens = self.total_tokens
             count = self.batch_multiplier - 1
             epoch_loss = 0
+            # epoch_loss_discriminator = 0
 
             # If Gaussian Noise, extract STDs for each joint position
             if self.gaussian_noise:
                 if len(all_epoch_noise) != 0:
-                    self.model.out_stds = torch.mean(torch.stack(([noise.std(dim=[0]) for noise in all_epoch_noise])),dim=-2)
+                    self.generator.out_stds = torch.mean(torch.stack(([noise.std(dim=[0]) for noise in all_epoch_noise])),dim=-2)
                 else:
-                    self.model.out_stds = None
+                    self.generator.out_stds = None
                 all_epoch_noise = []
 
             for batch in iter(train_iter):
                 # reactivate training
-                self.model.train()
+                
+                self.generator.train()
 
                 # create a Batch object from torchtext batch
                 batch = Batch(torch_batch=batch,
                               pad_index=self.pad_index,
-                              model=self.model)
+                              model=self.generator)
+
 
                 update = count == 0
                 # Train the model on a batch
@@ -292,10 +326,10 @@ class TrainManager:
                 if self.gaussian_noise:
                     # If future Prediction, cut down the noise size to just one frame
                     if self.future_prediction != 0:
-                        all_epoch_noise.append(noise.reshape(-1, self.model.out_trg_size // self.future_prediction))
+                        all_epoch_noise.append(noise.reshape(-1, self.generator.out_trg_size // self.future_prediction))
                     else:
-                        all_epoch_noise.append(noise.reshape(-1,self.model.out_trg_size))
-
+                        all_epoch_noise.append(noise.reshape(-1,self.generator.out_trg_size))
+                
                 self.tb_writer.add_scalar("train/train_batch_loss", batch_loss,self.steps)
                 count = self.batch_multiplier if update else count
                 count -= 1
@@ -313,14 +347,13 @@ class TrainManager:
                         "Tokens per Sec: %8.0f, Lr: %.6f",
                         epoch_no + 1, self.steps, batch_loss,
                         elapsed_tokens / elapsed,
-                        self.optimizer.param_groups[0]["lr"])
+                        self.optimizer_g.param_groups[0]["lr"])
                     start = time.time()
                     total_valid_duration = 0
                     start_tokens = self.total_tokens
 
                 # validate on the entire dev set
                 if self.steps % self.validation_freq == 0 and update:
-
                     valid_start_time = time.time()
 
                     valid_score, valid_loss, valid_references, valid_hypotheses, \
@@ -329,13 +362,12 @@ class TrainManager:
                             batch_size=self.eval_batch_size,
                             data=valid_data,
                             eval_metric=self.eval_metric,
-                            model=self.model,
+                            model=self.generator,
                             max_output_length=self.max_output_length,
                             loss_function=self.loss,
                             batch_type=self.eval_batch_type,
                             type="val",
                         )
-
                     val_step += 1
 
                     # Tensorboard writer
@@ -355,6 +387,11 @@ class TrainManager:
                         self.best = True
                         self.best_ckpt_score = ckpt_score
                         self.best_ckpt_iteration = self.steps
+
+                        self.skeleton_output.append(valid_hypotheses) # skeleton_output추가
+                        self.skeleton_input.append(valid_references)
+                        self.gloss_text.append(valid_inputs)
+
                         self.logger.info(
                             'Hooray! New best validation result [%s]!',
                             self.early_stopping_metric)
@@ -395,8 +432,14 @@ class TrainManager:
                             epoch_no+1, self.steps, valid_score,
                             valid_loss, valid_duration)
 
+                # label.resize_(self.batch_size).fill_(real_label)
+                # labelv = Variable(label)
+
+                # output = self.discriminator(valid_hypotheses, labelv)
+
                 if self.stop:
                     break
+            
             if self.stop:
                 self.logger.info(
                     'Training ended since minimum lr %f was reached.',
@@ -410,11 +453,34 @@ class TrainManager:
         self.logger.info('Best validation result at step %8d: %6.2f %s.',
                          self.best_ckpt_iteration, self.best_ckpt_score,
                          self.early_stopping_metric)
+        
+        for item in self.skeleton_output:
+            for skel in item:
+                f.write(np.array_str(np.array(skel)))
+                f.write('\n')
+
+        for item in self.skeleton_input:
+            for skel in item:
+                f2.write(np.array_str(np.array(skel)))
+                f2.write('\n')
+        
+        for item in self.gloss_text:
+            f3.write(','.join(item[0]))
+            f3.write('\n')
+
+        f.close()
+        f2.close()
+        f3.close()
 
         self.tb_writer.close()  # close Tensorboard writer
 
     # Produce the video of Phoenix MTC joints
     def produce_validation_video(self,output_joints, inputs, references, display, model_dir, type, steps="", file_paths=None):
+        
+        logging.basicConfig(level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(message)s",
+        handlers=[logging.FileHandler("debug.log"),logging.StreamHandler(sys.stdout)]
+        )
 
         # If not at test
         if type != "test":
@@ -446,6 +512,13 @@ class TrainManager:
             # Alter the dtw timing of the produced sequence, and collect the DTW score
             timing_hyp_seq, ref_seq_count, dtw_score = alter_DTW_timing(seq, ref_seq)
 
+            # Logging in a output skeleton in a new file
+            # for i in timing_hyp_seq:
+            #     f.write(np.array_str(i))
+            # f.write('\n')
+
+            # logging.info(timing_hyp_seq, np.array(timing_hyp_seq).shape)
+
             video_ext = "{}_{}.mp4".format(gloss_label, "{0:.2f}".format(float(dtw_score)).replace(".", "_"))
 
             if file_paths is not None:
@@ -466,7 +539,7 @@ class TrainManager:
     def _train_batch(self, batch: Batch, update: bool = True) -> Tensor:
 
         # Get loss from this batch
-        batch_loss, noise = self.model.get_loss_for_batch(
+        batch_loss, noise = self.generator.get_loss_for_batch(
             batch=batch, loss_function=self.loss)
 
         # normalize batch loss
@@ -486,12 +559,12 @@ class TrainManager:
 
         if self.clip_grad_fun is not None:
             # clip gradients (in-place)
-            self.clip_grad_fun(params=self.model.parameters())
+            self.clip_grad_fun(params=self.generator.parameters())
 
         if update:
             # make gradient step
-            self.optimizer.step()
-            self.optimizer.zero_grad()
+            self.optimizer_g.step()
+            self.optimizer_g.zero_grad()
 
             # increment step counter
             self.steps += 1
@@ -506,7 +579,7 @@ class TrainManager:
 
         current_lr = -1
         # ignores other param groups for now
-        for param_group in self.optimizer.param_groups:
+        for param_group in self.optimizer_g.param_groups:
             current_lr = param_group['lr']
 
         if current_lr < self.learning_rate_min:
@@ -525,10 +598,10 @@ class TrainManager:
         Write all model parameters (name, shape) to the log.
         """
         model_parameters = filter(lambda p: p.requires_grad,
-                                  self.model.parameters())
+                                  self.generator.parameters())
         n_params = sum([np.prod(p.size()) for p in model_parameters])
         self.logger.info("Total params: %d", n_params)
-        trainable_params = [n for (n, p) in self.model.named_parameters()
+        trainable_params = [n for (n, p) in self.generator.named_parameters()
                             if p.requires_grad]
         self.logger.info("Trainable parameters: %s", sorted(trainable_params))
         assert trainable_params
@@ -546,16 +619,18 @@ def train(cfg_file: str, ckpt=None) -> None:
     train_data, dev_data, test_data, src_vocab, trg_vocab = load_data(cfg=cfg)
 
     # Build the Progressive Transformer model
-    model = build_model(cfg, src_vocab=src_vocab, trg_vocab=trg_vocab)
+    generator = build_model(cfg, src_vocab=src_vocab, trg_vocab=trg_vocab)
+    discriminator = Discriminator()
 
     if ckpt is not None:
         use_cuda = cfg["training"].get("use_cuda", False)
         model_checkpoint = load_checkpoint(ckpt, use_cuda=use_cuda)
         # Build model and load parameters from the checkpoint
-        model.load_state_dict(model_checkpoint["model_state"])
+        generator.load_state_dict(model_checkpoint["model_g_state"])
+        discriminator.load_state_dict(model_checkpoint["model_d_state"])
 
     # for training management, e.g. early stopping and model selection
-    trainer = TrainManager(model=model, config=cfg)
+    trainer = TrainManager(discriminator=discriminator, generator=generator, config=cfg)
 
     # Store copy of original training config in model dir
     shutil.copy2(cfg_file, trainer.model_dir+"/config.yaml")
@@ -605,7 +680,7 @@ def test(cfg_file,
 
     # Build model and load parameters into it
     model = build_model(cfg, src_vocab=src_vocab, trg_vocab=trg_vocab)
-    model.load_state_dict(model_checkpoint["model_state"])
+    model.load_state_dict(model_checkpoint["model_g_state"])
     # If cuda, set model as cuda
     if use_cuda:
         model.cuda()

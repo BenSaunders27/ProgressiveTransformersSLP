@@ -32,10 +32,10 @@ def plot_video(joints,
 
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
-    
+
     for (j, frame_joints) in enumerate(joints):
         
-        logger.info(frame_joints)
+        # logger.info(frame_joints)
         # Reached padding
         if PAD_TOKEN in frame_joints:
             continue

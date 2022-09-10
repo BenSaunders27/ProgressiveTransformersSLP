@@ -16,10 +16,13 @@ from constants import PAD_TOKEN, EOS_TOKEN, BOS_TOKEN, TARGET_PAD
 from search import greedy
 from vocabulary import Vocabulary
 from batch import Batch
+import torch.optim as optim
+import torch.nn.functional as F
 
-class Model(nn.Module):
+
+class Generator(nn.Module):
     """
-    Base Model class
+    Text to SignPose
     """
 
     def __init__(self,
@@ -43,7 +46,7 @@ class Model(nn.Module):
         :param src_vocab: source vocabulary
         :param trg_vocab: target vocabulary
         """
-        super(Model, self).__init__()
+        super(Generator, self).__init__()
 
         model_cfg = cfg["model"]
 
@@ -251,10 +254,43 @@ class Model(nn.Module):
                "\ttrg_embed=%s)" % (self.__class__.__name__, self.encoder,
                    self.decoder, self.src_embed, self.trg_embed)
 
+class Discriminator(nn.Module):
+    """
+    Sign pose is concatenated with source spoken language, and projected to signel scalar(real/fake)
+    """
+
+    def __init__(self) -> None:
+        super(Discriminator, self).__init__()
+        self.conv1 = nn.Conv2d(1, 32, 5, 1, 2)
+        self.bn1 = nn.BatchNorm2d(32)
+        self.conv2 = nn.Conv2d(32, 64, 5, 1, 2)
+        self.bn2 = nn.BatchNorm2d(64)
+        self.fc1  = nn.Linear(64*28*28+100, 1024)
+        self.fc2 = nn.Linear(1024, 1)
+        self.fc3 = nn.Linear(10, 100) # (embedding_dimension, max_length)
+
+    def forward(self, x, labels):
+        batch_size = x.size(0)
+        x = x.view(batch_size, 1, 28,28)
+        x = self.conv1(x)
+        x = self.bn1(x)
+        x = F.relu(x)
+        x = self.conv2(x)
+        x = self.bn2(x)
+        x = F.relu(x)
+        x = x.view(batch_size, 64*28*28)
+        y_ = self.fc3(labels)
+        y_ = F.relu(y_)
+        x = torch.cat([x, y_], 1)
+        x = self.fc1(x)
+        x = F.relu(x)
+        x = self.fc2(x)
+        return F.sigmoid(x)
+
 
 def build_model(cfg: dict = None,
                 src_vocab: Vocabulary = None,
-                trg_vocab: Vocabulary = None) -> Model:
+                trg_vocab: Vocabulary = None) -> Generator:
     """
     Build and initialize the model according to the configuration.
 
@@ -319,7 +355,7 @@ def build_model(cfg: dict = None,
         trg_size=out_trg_size, decoder_trg_trg_=decoder_trg_trg)
 
     # Define the model
-    model = Model(encoder=encoder,
+    generator = Generator(encoder=encoder,
                   decoder=decoder,
                   src_embed=src_embed,
                   trg_embed=trg_linear,
@@ -330,6 +366,7 @@ def build_model(cfg: dict = None,
                   out_trg_size=out_trg_size)
 
     # Custom initialization of model parameters
-    initialize_model(model, cfg, src_padding_idx, trg_padding_idx)
+    # need to initialize the condiational gan model
+    initialize_model(generator, cfg, src_padding_idx, trg_padding_idx)
 
-    return model
+    return generator
