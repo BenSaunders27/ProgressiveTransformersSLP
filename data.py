@@ -7,9 +7,68 @@ from einops import rearrange
 
 import pandas as pd
 import torch
-from torch.utils.data import Dataset
+from torch.utils.data import Dataset, DataLoader
+# from torchtext import data
 
 from utils import load_dirs, load_json
+
+
+# # pylint: disable=unused-argument,global-variable-undefined
+# def token_batch_size_fn(new, count, sofar):
+#     """Compute batch size based on number of tokens (+padding)."""
+#     global max_src_in_batch, max_tgt_in_batch
+#     if count == 1:
+#         max_src_in_batch = 0
+#         max_tgt_in_batch = 0
+#     max_src_in_batch = max(max_src_in_batch, len(new.src))
+#     src_elements = count * max_src_in_batch
+#     if hasattr(new, 'trg'):  # for monolingual data sets ("translate" mode)
+#         max_tgt_in_batch = max(max_tgt_in_batch, len(new.trg) + 2)
+#         tgt_elements = count * max_tgt_in_batch
+#     else:
+#         tgt_elements = 0
+#     return max(src_elements, tgt_elements)
+#
+#
+# def _collate_fn(batch):
+#     return torch.nn.utils.rnn.pad_sequence([x['joint_feats'] for x in batch], batch_first=True, padding_value=0)
+#
+#
+# def make_data_iter(dataset: Dataset,
+#                    batch_size: int,
+#                    batch_type: str = "sentence",
+#                    train: bool = False,
+#                    shuffle: bool = False):
+#     """
+#     Returns a torchtext iterator for a torchtext dataset.
+#     :param dataset: torchtext dataset containing src and optionally trg
+#     :param batch_size: size of the batches the iterator prepares
+#     :param batch_type: measure batch size by sentence count or by token count
+#     :param train: whether it's training time, when turned off,
+#         bucketing, sorting within batches and shuffling is disabled
+#     :param shuffle: whether to shuffle the data before each epoch
+#         (no effect if set to True for testing)
+#     :return: torchtext iterator
+#     """
+#
+#     batch_size_fn = token_batch_size_fn if batch_type == "token" else None
+#
+#     if train:
+#         # optionally shuffle and sort during training
+#         data_iter = data.BucketIterator(
+#             repeat=False, sort=False, dataset=dataset,
+#             batch_size=batch_size, batch_size_fn=batch_size_fn,
+#             train=True, sort_within_batch=True,
+#             sort_key=lambda x: len(x.src), shuffle=shuffle)
+#     else:
+#         # don't sort/shuffle for validation/inference
+#         # data_iter = data.BucketIterator(
+#         #     repeat=False, dataset=dataset,
+#         #     batch_size=batch_size, batch_size_fn=batch_size_fn,
+#         #     train=False, sort=False)
+#         data_iter = DataLoader(dataset, batch_size, shuffle=False, collate_fn=_collate_fn)
+#
+#     return data_iter
 
 
 def get_random_seq(seq, seq_len):

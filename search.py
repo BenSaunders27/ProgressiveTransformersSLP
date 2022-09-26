@@ -15,7 +15,6 @@ def greedy(
         encoder_output: Tensor,
         trg_input: Tensor,
         model,
-        no_grad,
         ) -> (np.array, np.array):
     """
     Special greedy function for transformer, since it works differently.
@@ -73,29 +72,7 @@ def greedy(
         padding_mask = (F.pad(input=padding_mask.double(), pad=(pad_amount, 0, 0, 0), mode='replicate') == 1.0)
 
         # Pass the embedded input and the encoder output into the decoder
-        if not no_grad:
-            with torch.no_grad():
-                out, _, _, _ = decoder(
-                    trg_embed=trg_embed,
-                    encoder_output=encoder_output,
-                    src_mask=src_mask,
-                    trg_mask=padding_mask,
-                )
-
-                if model.future_prediction != 0:
-                    # Cut to only the first frame prediction
-                    out = torch.cat((out[:, :, :out.shape[2] // (model.future_prediction)],out[:,:,-1:]),dim=2)
-
-                if model.just_count_in:
-                    # If just counter in trg_input, concatenate counters of output
-                    ys = torch.cat([ys, out[:,-1:,-1:]], dim=1)
-
-                # Add this frame prediction to the overall prediction
-                ys = torch.cat([ys, out[:,-1:,:]], dim=1)
-
-                # Add this next predicted frame to the full frame output
-                ys_out = torch.cat([ys_out, out[:,-1:,:]], dim=1)
-        else:
+        with torch.no_grad():
             out, _, _, _ = decoder(
                 trg_embed=trg_embed,
                 encoder_output=encoder_output,
@@ -105,17 +82,17 @@ def greedy(
 
             if model.future_prediction != 0:
                 # Cut to only the first frame prediction
-                out = torch.cat((out[:, :, :out.shape[2] // (model.future_prediction)], out[:, :, -1:]), dim=2)
+                out = torch.cat((out[:, :, :out.shape[2] // (model.future_prediction)],out[:,:,-1:]),dim=2)
 
             if model.just_count_in:
                 # If just counter in trg_input, concatenate counters of output
-                ys = torch.cat([ys, out[:, -1:, -1:]], dim=1)
+                ys = torch.cat([ys, out[:,-1:,-1:]], dim=1)
 
             # Add this frame prediction to the overall prediction
-            ys = torch.cat([ys, out[:, -1:, :]], dim=1)
+            ys = torch.cat([ys, out[:,-1:,:]], dim=1)
 
             # Add this next predicted frame to the full frame output
-            ys_out = torch.cat([ys_out, out[:, -1:, :]], dim=1)
+            ys_out = torch.cat([ys_out, out[:,-1:,:]], dim=1)
 
     return ys_out, None
 
