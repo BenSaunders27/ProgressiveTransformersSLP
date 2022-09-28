@@ -1,0 +1,67 @@
+data:
+    src: "gloss"    # Source - Either Gloss->Pose or Text->Pose (gloss,text)
+    trg: "skels"    # Target - 3D body co-ordinates (skels)
+    files: "files"    # Filenames for each sequence
+
+    train: "./Data/tmp/train"
+    dev: "./Data/tmp/dev"
+    test: "./Data/tmp/test"
+
+    max_sent_length: 300 # Max Sentence Length
+    skip_frames: 1   # Skip frames in the data, to reduce the data input size
+    src_vocab: "./Configs/src_vocab.txt"
+
+training:
+    random_seed: 27   # Random seed for initialisation
+    optimizer: "adam"   # Chosen optimiser (adam, ..)
+    learning_rate: 0.001   # Initial model learning rate
+    learning_rate_min: 0.0002 # Learning rate minimum, when training will stop
+    weight_decay: 0.0   # Weight Decay
+    clip_grad_norm: 5.0   # Gradient clipping value
+    batch_size: 8    # Batch Size for training
+    scheduling: "plateau"   # Scheduling at training time (plateau, ...)
+    patience: 7  # How many epochs of no improvement causes a LR reduction
+    decrease_factor: 0.7  # LR reduction factor, after the # of patience epochs
+    early_stopping_metric: "dtw" # Which metric determines scheduling (DTW, loss, BT...)
+    epochs: 20000  # How many epochs to run for
+    validation_freq: 10  # After how many steps to run a validation on the model
+    logging_freq: 250  # After how many steps to log training progress
+    eval_metric: "dtw"  # Evaluation metric during training (dtw','bt')
+    model_dir: "./Models/Base" # Where the model shall be stored
+    overwrite: False # Flag to overwrite a previous saved model in the model_dir
+    continue: True  # Flag to continue from a previous saved model in the model_dir
+    shuffle: True  # Flag to shuffle the data during training
+    use_cuda: False  # Flag to use GPU cuda capabilities
+    max_output_length: 300 # Max Output Length
+    keep_last_ckpts: 1 # How many previous best/latest checkpoints to keep
+    loss: "MSE"  # Loss function (MSE, L1)
+
+model:
+    initializer: "xavier" # Model initialisation (Xavier, ...)
+    bias_initializer: "zeros"  # Bias initialiser (Zeros, ...)
+    embed_initializer: "xavier" # Embedding initialiser (Xavier, ...)
+    trg_size: 150  # Size of target skeleton coordinates (150 for Inverse Kinematics body/hands)
+    just_count_in: False # Flag for Just Counter Data Augmentation
+    gaussian_noise: False # Flag for Gaussian Noise Data Augmentation
+    noise_rate: 5 # Gaussian Noise rate
+    future_prediction: 0 # Future Prediction Data Augmentation if > 0
+    encoder:  # Model Encoder
+        type: "transformer"
+        num_layers: 2 # Number of layers
+        num_heads: 4  # Number of Heads
+        embeddings:
+            embedding_dim: 512  # Embedding Dimension
+            dropout: 0.0 # Embedding Dropout
+        hidden_size: 512 # Hidden Size Dimension
+        ff_size: 2048 # Feed-forward dimension (4 x hidden_size)
+        dropout: 0.0 # Encoder Dropout
+    decoder: # Model Decoder
+        type: "transformer"
+        num_layers: 2 # Number of layers
+        num_heads: 4 # Number of Heads
+        embeddings:
+            embedding_dim: 512 # Embedding Dimension
+            dropout: 0.0 # Embedding Dropout
+        hidden_size: 512 # Hidden Size Dimension
+        ff_size: 2048 # Feed-forward dimension (4 x hidden_size)
+        dropout: 0.0 # Decoder Dropout

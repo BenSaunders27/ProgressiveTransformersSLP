@@ -7,10 +7,10 @@ import _pickle as cPickle
 import gzip
 import subprocess
 import torch
-
+import logging
 from dtw import dtw
 from constants import PAD_TOKEN
-
+ 
 # Plot a video given a tensor of joints, a file path, video name and references/sequence ID
 def plot_video(joints,
                file_path,
@@ -30,8 +30,12 @@ def plot_video(joints,
 
     num_frames = 0
 
-    for (j, frame_joints) in enumerate(joints):
+    logger = logging.getLogger()
+    logger.setLevel(logging.INFO)
 
+    for (j, frame_joints) in enumerate(joints):
+        
+        # logger.info(frame_joints)
         # Reached padding
         if PAD_TOKEN in frame_joints:
             continue
