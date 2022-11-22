@@ -83,7 +83,7 @@ pandocfilters==1.4.2
 parso==0.1.1
 pexpect==4.2.1
 pickleshare==0.7.4
-Pillow==6.2.0
+Pillow==9.3.0
 pluggy==0.6.0
 ply==3.11
 portalocker==1.5.1
