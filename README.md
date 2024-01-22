@@ -34,14 +34,6 @@ Prepare Phoenix14T (or other sign language dataset) data as .txt files for .skel
 
 Examples can be found in /Data/tmp. Data path must be specified in config file.
 
-# Pre-Trained Model
-
-A pre-trained Progressive Transformer checkpoint can be downloaded from https://www.dropbox.com/s/l4xmnybp7luz0l3/PreTrained_PTSLP_Model.ckpt?dl=0. 
-
-This model has a size of ```num_layers: 2```, ```num_heads: 4``` and ```embedding_dim: 512```, as outlined in ```./Configs/Base.yaml```. It has been pre-trained on the full PHOENIX14T dataset with the data format as above. The relevant train.log and validations.txt files can be found in ```.\Configs```.
-
-To initialise a model from this checkpoint, pass the ```--ckpt ./PreTrained_PTSLP_Model.ckpt``` argument to either ```train``` or ```test``` modes. Additionally, to initialise the correct src_embed size, the config argument ```src_vocab: "./Configs/src_vocab.txt"``` must be set to the location of the src_vocab.txt, found under ```./Configs```. Please open an issue if this checkpoint cannot be downloaded or loaded.
-
 # Reference
 
 If you use this code in your research, please cite the following [papers](https://arxiv.org/abs/2004.14874):
