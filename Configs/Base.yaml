@@ -42,7 +42,7 @@ model:
     embed_initializer: "xavier" # Embedding initialiser (Xavier, ...)
     trg_size: 150  # Size of target skeleton coordinates (150 for Inverse Kinematics body/hands)
     just_count_in: False # Flag for Just Counter Data Augmentation
-    gaussian_noise: False # Flag for Gaussian Noise Data Augmentation
+    gaussian_noise: True # Flag for Gaussian Noise Data Augmentation
     noise_rate: 5 # Gaussian Noise rate
     future_prediction: 0 # Future Prediction Data Augmentation if > 0
     encoder:  # Model Encoder
