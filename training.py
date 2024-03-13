@@ -565,8 +565,8 @@ def train(cfg_file: str, ckpt=None) -> None:
     # Train the model
     trainer.train_and_validate(train_data=train_data, valid_data=dev_data)
 
-    # Test the model with the best checkpoint
-    test(cfg_file)
+    # # Test the model with the best checkpoint
+    # test(cfg_file)
 
 # pylint: disable-msg=logging-too-many-args
 def test(cfg_file,

@@ -1,0 +1,1074 @@
+2022-09-06 17:15:05,460 Progressive Transformers for End-to-End SLP
+2022-09-06 17:15:05,469 Total params: 15427584
+2022-09-06 17:15:05,470 Trainable parameters: ['decoder.layer_norm.bias', 'decoder.layer_norm.weight', 'decoder.layers.0.dec_layer_norm.bias', 'decoder.layers.0.dec_layer_norm.weight', 'decoder.layers.0.feed_forward.layer_norm.bias', 'decoder.layers.0.feed_forward.layer_norm.weight', 'decoder.layers.0.feed_forward.pwff_layer.0.bias', 'decoder.layers.0.feed_forward.pwff_layer.0.weight', 'decoder.layers.0.feed_forward.pwff_layer.3.bias', 'decoder.layers.0.feed_forward.pwff_layer.3.weight', 'decoder.layers.0.src_trg_att.k_layer.bias', 'decoder.layers.0.src_trg_att.k_layer.weight', 'decoder.layers.0.src_trg_att.output_layer.bias', 'decoder.layers.0.src_trg_att.output_layer.weight', 'decoder.layers.0.src_trg_att.q_layer.bias', 'decoder.layers.0.src_trg_att.q_layer.weight', 'decoder.layers.0.src_trg_att.v_layer.bias', 'decoder.layers.0.src_trg_att.v_layer.weight', 'decoder.layers.0.trg_trg_att.k_layer.bias', 'decoder.layers.0.trg_trg_att.k_layer.weight', 'decoder.layers.0.trg_trg_att.output_layer.bias', 'decoder.layers.0.trg_trg_att.output_layer.weight', 'decoder.layers.0.trg_trg_att.q_layer.bias', 'decoder.layers.0.trg_trg_att.q_layer.weight', 'decoder.layers.0.trg_trg_att.v_layer.bias', 'decoder.layers.0.trg_trg_att.v_layer.weight', 'decoder.layers.0.x_layer_norm.bias', 'decoder.layers.0.x_layer_norm.weight', 'decoder.layers.1.dec_layer_norm.bias', 'decoder.layers.1.dec_layer_norm.weight', 'decoder.layers.1.feed_forward.layer_norm.bias', 'decoder.layers.1.feed_forward.layer_norm.weight', 'decoder.layers.1.feed_forward.pwff_layer.0.bias', 'decoder.layers.1.feed_forward.pwff_layer.0.weight', 'decoder.layers.1.feed_forward.pwff_layer.3.bias', 'decoder.layers.1.feed_forward.pwff_layer.3.weight', 'decoder.layers.1.src_trg_att.k_layer.bias', 'decoder.layers.1.src_trg_att.k_layer.weight', 'decoder.layers.1.src_trg_att.output_layer.bias', 'decoder.layers.1.src_trg_att.output_layer.weight', 'decoder.layers.1.src_trg_att.q_layer.bias', 'decoder.layers.1.src_trg_att.q_layer.weight', 'decoder.layers.1.src_trg_att.v_layer.bias', 'decoder.layers.1.src_trg_att.v_layer.weight', 'decoder.layers.1.trg_trg_att.k_layer.bias', 'decoder.layers.1.trg_trg_att.k_layer.weight', 'decoder.layers.1.trg_trg_att.output_layer.bias', 'decoder.layers.1.trg_trg_att.output_layer.weight', 'decoder.layers.1.trg_trg_att.q_layer.bias', 'decoder.layers.1.trg_trg_att.q_layer.weight', 'decoder.layers.1.trg_trg_att.v_layer.bias', 'decoder.layers.1.trg_trg_att.v_layer.weight', 'decoder.layers.1.x_layer_norm.bias', 'decoder.layers.1.x_layer_norm.weight', 'decoder.output_layer.weight', 'encoder.layer_norm.bias', 'encoder.layer_norm.weight', 'encoder.layers.0.feed_forward.layer_norm.bias', 'encoder.layers.0.feed_forward.layer_norm.weight', 'encoder.layers.0.feed_forward.pwff_layer.0.bias', 'encoder.layers.0.feed_forward.pwff_layer.0.weight', 'encoder.layers.0.feed_forward.pwff_layer.3.bias', 'encoder.layers.0.feed_forward.pwff_layer.3.weight', 'encoder.layers.0.layer_norm.bias', 'encoder.layers.0.layer_norm.weight', 'encoder.layers.0.src_src_att.k_layer.bias', 'encoder.layers.0.src_src_att.k_layer.weight', 'encoder.layers.0.src_src_att.output_layer.bias', 'encoder.layers.0.src_src_att.output_layer.weight', 'encoder.layers.0.src_src_att.q_layer.bias', 'encoder.layers.0.src_src_att.q_layer.weight', 'encoder.layers.0.src_src_att.v_layer.bias', 'encoder.layers.0.src_src_att.v_layer.weight', 'encoder.layers.1.feed_forward.layer_norm.bias', 'encoder.layers.1.feed_forward.layer_norm.weight', 'encoder.layers.1.feed_forward.pwff_layer.0.bias', 'encoder.layers.1.feed_forward.pwff_layer.0.weight', 'encoder.layers.1.feed_forward.pwff_layer.3.bias', 'encoder.layers.1.feed_forward.pwff_layer.3.weight', 'encoder.layers.1.layer_norm.bias', 'encoder.layers.1.layer_norm.weight', 'encoder.layers.1.src_src_att.k_layer.bias', 'encoder.layers.1.src_src_att.k_layer.weight', 'encoder.layers.1.src_src_att.output_layer.bias', 'encoder.layers.1.src_src_att.output_layer.weight', 'encoder.layers.1.src_src_att.q_layer.bias', 'encoder.layers.1.src_src_att.q_layer.weight', 'encoder.layers.1.src_src_att.v_layer.bias', 'encoder.layers.1.src_src_att.v_layer.weight', 'src_embed.lut.weight', 'trg_embed.bias', 'trg_embed.weight']
+2022-09-06 17:15:05,475 cfg.data.src                       : gloss
+2022-09-06 17:15:05,475 cfg.data.trg                       : skels
+2022-09-06 17:15:05,475 cfg.data.files                     : files
+2022-09-06 17:15:05,475 cfg.data.train                     : ./Data/tmp/train
+2022-09-06 17:15:05,475 cfg.data.dev                       : ./Data/tmp/dev
+2022-09-06 17:15:05,475 cfg.data.test                      : ./Data/tmp/test
+2022-09-06 17:15:05,475 cfg.data.max_sent_length           : 300
+2022-09-06 17:15:05,475 cfg.data.skip_frames               : 1
+2022-09-06 17:15:05,475 cfg.data.src_vocab                 : ./Configs/src_vocab.txt
+2022-09-06 17:15:05,476 cfg.training.random_seed           : 27
+2022-09-06 17:15:05,476 cfg.training.optimizer             : adam
+2022-09-06 17:15:05,476 cfg.training.learning_rate         : 0.001
+2022-09-06 17:15:05,476 cfg.training.learning_rate_min     : 0.0002
+2022-09-06 17:15:05,476 cfg.training.weight_decay          : 0.0
+2022-09-06 17:15:05,476 cfg.training.clip_grad_norm        : 5.0
+2022-09-06 17:15:05,476 cfg.training.batch_size            : 8
+2022-09-06 17:15:05,476 cfg.training.scheduling            : plateau
+2022-09-06 17:15:05,476 cfg.training.patience              : 7
+2022-09-06 17:15:05,476 cfg.training.decrease_factor       : 0.7
+2022-09-06 17:15:05,476 cfg.training.early_stopping_metric : dtw
+2022-09-06 17:15:05,476 cfg.training.epochs                : 20000
+2022-09-06 17:15:05,476 cfg.training.validation_freq       : 10
+2022-09-06 17:15:05,476 cfg.training.logging_freq          : 250
+2022-09-06 17:15:05,477 cfg.training.eval_metric           : dtw
+2022-09-06 17:15:05,477 cfg.training.model_dir             : ./Models/Base
+2022-09-06 17:15:05,477 cfg.training.overwrite             : False
+2022-09-06 17:15:05,477 cfg.training.continue              : True
+2022-09-06 17:15:05,477 cfg.training.shuffle               : True
+2022-09-06 17:15:05,478 cfg.training.use_cuda              : False
+2022-09-06 17:15:05,478 cfg.training.max_output_length     : 300
+2022-09-06 17:15:05,478 cfg.training.keep_last_ckpts       : 1
+2022-09-06 17:15:05,478 cfg.training.loss                  : MSE
+2022-09-06 17:15:05,478 cfg.model.initializer              : xavier
+2022-09-06 17:15:05,478 cfg.model.bias_initializer         : zeros
+2022-09-06 17:15:05,478 cfg.model.embed_initializer        : xavier
+2022-09-06 17:15:05,478 cfg.model.trg_size                 : 150
+2022-09-06 17:15:05,478 cfg.model.just_count_in            : False
+2022-09-06 17:15:05,478 cfg.model.gaussian_noise           : False
+2022-09-06 17:15:05,479 cfg.model.noise_rate               : 5
+2022-09-06 17:15:05,479 cfg.model.future_prediction        : 0
+2022-09-06 17:15:05,479 cfg.model.encoder.type             : transformer
+2022-09-06 17:15:05,479 cfg.model.encoder.num_layers       : 2
+2022-09-06 17:15:05,479 cfg.model.encoder.num_heads        : 4
+2022-09-06 17:15:05,479 cfg.model.encoder.embeddings.embedding_dim : 512
+2022-09-06 17:15:05,479 cfg.model.encoder.embeddings.dropout : 0.0
+2022-09-06 17:15:05,479 cfg.model.encoder.hidden_size      : 512
+2022-09-06 17:15:05,479 cfg.model.encoder.ff_size          : 2048
+2022-09-06 17:15:05,479 cfg.model.encoder.dropout          : 0.0
+2022-09-06 17:15:05,479 cfg.model.decoder.type             : transformer
+2022-09-06 17:15:05,479 cfg.model.decoder.num_layers       : 2
+2022-09-06 17:15:05,479 cfg.model.decoder.num_heads        : 4
+2022-09-06 17:15:05,479 cfg.model.decoder.embeddings.embedding_dim : 512
+2022-09-06 17:15:05,480 cfg.model.decoder.embeddings.dropout : 0.0
+2022-09-06 17:15:05,480 cfg.model.decoder.hidden_size      : 512
+2022-09-06 17:15:05,480 cfg.model.decoder.ff_size          : 2048
+2022-09-06 17:15:05,480 cfg.model.decoder.dropout          : 0.0
+2022-09-06 17:15:05,480 EPOCH 1
+2022-09-06 17:15:07,117 Epoch   1: total training loss 0.23035
+2022-09-06 17:15:07,117 EPOCH 2
+2022-09-06 17:15:08,180 Epoch   2: total training loss 0.51402
+2022-09-06 17:15:08,180 EPOCH 3
+2022-09-06 17:15:09,011 Epoch   3: total training loss 0.12913
+2022-09-06 17:15:09,012 EPOCH 4
+2022-09-06 17:15:09,872 Epoch   4: total training loss 0.04167
+2022-09-06 17:15:09,872 EPOCH 5
+2022-09-06 17:15:10,671 Epoch   5: total training loss 0.02159
+2022-09-06 17:15:10,671 EPOCH 6
+2022-09-06 17:15:11,526 Epoch   6: total training loss 0.02402
+2022-09-06 17:15:11,526 EPOCH 7
+2022-09-06 17:15:12,280 Epoch   7: total training loss 0.02713
+2022-09-06 17:15:12,280 EPOCH 8
+2022-09-06 17:15:13,157 Epoch   8: total training loss 0.02571
+2022-09-06 17:15:13,157 EPOCH 9
+2022-09-06 17:15:14,145 Epoch   9: total training loss 0.02111
+2022-09-06 17:15:14,146 EPOCH 10
+2022-09-06 17:15:30,074 Hooray! New best validation result [dtw]!
+2022-09-06 17:15:30,075 Saving new checkpoint.
+2022-09-06 17:15:39,796 Validation result at epoch  10, step       10: Val DTW Score:  31.38, loss:   0.0506,  duration: 24.5511s
+2022-09-06 17:15:39,798 Epoch  10: total training loss 0.01572
+2022-09-06 17:15:39,798 EPOCH 11
+2022-09-06 17:15:40,710 Epoch  11: total training loss 0.01105
+2022-09-06 17:15:40,710 EPOCH 12
+2022-09-06 17:15:41,478 Epoch  12: total training loss 0.00844
+2022-09-06 17:15:41,478 EPOCH 13
+2022-09-06 17:15:42,299 Epoch  13: total training loss 0.00754
+2022-09-06 17:15:42,299 EPOCH 14
+2022-09-06 17:15:43,057 Epoch  14: total training loss 0.00781
+2022-09-06 17:15:43,057 EPOCH 15
+2022-09-06 17:15:43,828 Epoch  15: total training loss 0.00842
+2022-09-06 17:15:43,828 EPOCH 16
+2022-09-06 17:15:44,630 Epoch  16: total training loss 0.00872
+2022-09-06 17:15:44,631 EPOCH 17
+2022-09-06 17:15:45,456 Epoch  17: total training loss 0.00851
+2022-09-06 17:15:45,456 EPOCH 18
+2022-09-06 17:15:46,276 Epoch  18: total training loss 0.00780
+2022-09-06 17:15:46,276 EPOCH 19
+2022-09-06 17:15:47,125 Epoch  19: total training loss 0.00682
+2022-09-06 17:15:47,125 EPOCH 20
+2022-09-06 17:16:04,054 Hooray! New best validation result [dtw]!
+2022-09-06 17:16:04,054 Saving new checkpoint.
+2022-09-06 17:16:12,529 Validation result at epoch  20, step       20: Val DTW Score:  26.81, loss:   0.0207,  duration: 24.5616s
+2022-09-06 17:16:12,531 Epoch  20: total training loss 0.00590
+2022-09-06 17:16:12,531 EPOCH 21
+2022-09-06 17:16:13,576 Epoch  21: total training loss 0.00516
+2022-09-06 17:16:13,577 EPOCH 22
+2022-09-06 17:16:14,452 Epoch  22: total training loss 0.00477
+2022-09-06 17:16:14,452 EPOCH 23
+2022-09-06 17:16:15,256 Epoch  23: total training loss 0.00462
+2022-09-06 17:16:15,256 EPOCH 24
+2022-09-06 17:16:16,085 Epoch  24: total training loss 0.00458
+2022-09-06 17:16:16,085 EPOCH 25
+2022-09-06 17:16:16,961 Epoch  25: total training loss 0.00451
+2022-09-06 17:16:16,962 EPOCH 26
+2022-09-06 17:16:17,732 Epoch  26: total training loss 0.00449
+2022-09-06 17:16:17,733 EPOCH 27
+2022-09-06 17:16:18,397 Epoch  27: total training loss 0.00437
+2022-09-06 17:16:18,397 EPOCH 28
+2022-09-06 17:16:19,071 Epoch  28: total training loss 0.00427
+2022-09-06 17:16:19,072 EPOCH 29
+2022-09-06 17:16:19,772 Epoch  29: total training loss 0.00412
+2022-09-06 17:16:19,773 EPOCH 30
+2022-09-06 17:16:36,284 Hooray! New best validation result [dtw]!
+2022-09-06 17:16:36,285 Saving new checkpoint.
+2022-09-06 17:16:45,100 Validation result at epoch  30, step       30: Val DTW Score:  21.02, loss:   0.0139,  duration: 24.5640s
+2022-09-06 17:16:45,101 Epoch  30: total training loss 0.00390
+2022-09-06 17:16:45,101 EPOCH 31
+2022-09-06 17:16:46,114 Epoch  31: total training loss 0.00367
+2022-09-06 17:16:46,114 EPOCH 32
+2022-09-06 17:16:46,957 Epoch  32: total training loss 0.00346
+2022-09-06 17:16:46,958 EPOCH 33
+2022-09-06 17:16:47,833 Epoch  33: total training loss 0.00323
+2022-09-06 17:16:47,834 EPOCH 34
+2022-09-06 17:16:48,716 Epoch  34: total training loss 0.00306
+2022-09-06 17:16:48,717 EPOCH 35
+2022-09-06 17:16:49,585 Epoch  35: total training loss 0.00303
+2022-09-06 17:16:49,585 EPOCH 36
+2022-09-06 17:16:50,660 Epoch  36: total training loss 0.00305
+2022-09-06 17:16:50,660 EPOCH 37
+2022-09-06 17:16:51,776 Epoch  37: total training loss 0.00309
+2022-09-06 17:16:51,776 EPOCH 38
+2022-09-06 17:16:52,806 Epoch  38: total training loss 0.00305
+2022-09-06 17:16:52,807 EPOCH 39
+2022-09-06 17:16:53,736 Epoch  39: total training loss 0.00302
+2022-09-06 17:16:53,736 EPOCH 40
+2022-09-06 17:17:10,505 Hooray! New best validation result [dtw]!
+2022-09-06 17:17:10,506 Saving new checkpoint.
+2022-09-06 17:17:19,874 Validation result at epoch  40, step       40: Val DTW Score:  18.70, loss:   0.0108,  duration: 25.2563s
+2022-09-06 17:17:19,875 Epoch  40: total training loss 0.00289
+2022-09-06 17:17:19,875 EPOCH 41
+2022-09-06 17:17:20,856 Epoch  41: total training loss 0.00276
+2022-09-06 17:17:20,856 EPOCH 42
+2022-09-06 17:17:21,639 Epoch  42: total training loss 0.00264
+2022-09-06 17:17:21,639 EPOCH 43
+2022-09-06 17:17:22,360 Epoch  43: total training loss 0.00253
+2022-09-06 17:17:22,360 EPOCH 44
+2022-09-06 17:17:23,120 Epoch  44: total training loss 0.00248
+2022-09-06 17:17:23,120 EPOCH 45
+2022-09-06 17:17:23,962 Epoch  45: total training loss 0.00242
+2022-09-06 17:17:23,962 EPOCH 46
+2022-09-06 17:17:24,748 Epoch  46: total training loss 0.00245
+2022-09-06 17:17:24,748 EPOCH 47
+2022-09-06 17:17:26,232 Epoch  47: total training loss 0.00245
+2022-09-06 17:17:26,233 EPOCH 48
+2022-09-06 17:17:27,164 Epoch  48: total training loss 0.00244
+2022-09-06 17:17:27,164 EPOCH 49
+2022-09-06 17:17:27,947 Epoch  49: total training loss 0.00238
+2022-09-06 17:17:27,948 EPOCH 50
+2022-09-06 17:17:41,757 Hooray! New best validation result [dtw]!
+2022-09-06 17:17:41,757 Saving new checkpoint.
+2022-09-06 17:17:50,160 Validation result at epoch  50, step       50: Val DTW Score:  17.53, loss:   0.0093,  duration: 21.3628s
+2022-09-06 17:17:50,162 Epoch  50: total training loss 0.00229
+2022-09-06 17:17:50,162 EPOCH 51
+2022-09-06 17:17:51,105 Epoch  51: total training loss 0.00225
+2022-09-06 17:17:51,106 EPOCH 52
+2022-09-06 17:17:51,826 Epoch  52: total training loss 0.00216
+2022-09-06 17:17:51,827 EPOCH 53
+2022-09-06 17:17:52,503 Epoch  53: total training loss 0.00214
+2022-09-06 17:17:52,503 EPOCH 54
+2022-09-06 17:17:53,205 Epoch  54: total training loss 0.00211
+2022-09-06 17:17:53,205 EPOCH 55
+2022-09-06 17:17:53,875 Epoch  55: total training loss 0.00209
+2022-09-06 17:17:53,876 EPOCH 56
+2022-09-06 17:17:54,754 Epoch  56: total training loss 0.00207
+2022-09-06 17:17:54,754 EPOCH 57
+2022-09-06 17:17:55,473 Epoch  57: total training loss 0.00206
+2022-09-06 17:17:55,473 EPOCH 58
+2022-09-06 17:17:56,158 Epoch  58: total training loss 0.00201
+2022-09-06 17:17:56,158 EPOCH 59
+2022-09-06 17:17:56,838 Epoch  59: total training loss 0.00198
+2022-09-06 17:17:56,839 EPOCH 60
+2022-09-06 17:18:10,223 Hooray! New best validation result [dtw]!
+2022-09-06 17:18:10,224 Saving new checkpoint.
+2022-09-06 17:18:17,700 Validation result at epoch  60, step       60: Val DTW Score:  17.22, loss:   0.0092,  duration: 20.1770s
+2022-09-06 17:18:17,701 Epoch  60: total training loss 0.00194
+2022-09-06 17:18:17,701 EPOCH 61
+2022-09-06 17:18:18,552 Epoch  61: total training loss 0.00193
+2022-09-06 17:18:18,552 EPOCH 62
+2022-09-06 17:18:19,233 Epoch  62: total training loss 0.00188
+2022-09-06 17:18:19,234 EPOCH 63
+2022-09-06 17:18:19,923 Epoch  63: total training loss 0.00186
+2022-09-06 17:18:19,923 EPOCH 64
+2022-09-06 17:18:20,596 Epoch  64: total training loss 0.00184
+2022-09-06 17:18:20,597 EPOCH 65
+2022-09-06 17:18:21,281 Epoch  65: total training loss 0.00183
+2022-09-06 17:18:21,281 EPOCH 66
+2022-09-06 17:18:21,967 Epoch  66: total training loss 0.00180
+2022-09-06 17:18:21,967 EPOCH 67
+2022-09-06 17:18:22,638 Epoch  67: total training loss 0.00179
+2022-09-06 17:18:22,638 EPOCH 68
+2022-09-06 17:18:23,307 Epoch  68: total training loss 0.00175
+2022-09-06 17:18:23,307 EPOCH 69
+2022-09-06 17:18:23,968 Epoch  69: total training loss 0.00173
+2022-09-06 17:18:23,968 EPOCH 70
+2022-09-06 17:18:39,953 Hooray! New best validation result [dtw]!
+2022-09-06 17:18:39,954 Saving new checkpoint.
+2022-09-06 17:18:48,342 Validation result at epoch  70, step       70: Val DTW Score:  17.19, loss:   0.0089,  duration: 23.6969s
+2022-09-06 17:18:48,343 Epoch  70: total training loss 0.00173
+2022-09-06 17:18:48,343 EPOCH 71
+2022-09-06 17:18:49,514 Epoch  71: total training loss 0.00168
+2022-09-06 17:18:49,515 EPOCH 72
+2022-09-06 17:18:50,366 Epoch  72: total training loss 0.00167
+2022-09-06 17:18:50,366 EPOCH 73
+2022-09-06 17:18:51,444 Epoch  73: total training loss 0.00165
+2022-09-06 17:18:51,444 EPOCH 74
+2022-09-06 17:18:52,702 Epoch  74: total training loss 0.00165
+2022-09-06 17:18:52,703 EPOCH 75
+2022-09-06 17:18:53,803 Epoch  75: total training loss 0.00162
+2022-09-06 17:18:53,804 EPOCH 76
+2022-09-06 17:18:54,796 Epoch  76: total training loss 0.00160
+2022-09-06 17:18:54,796 EPOCH 77
+2022-09-06 17:18:55,808 Epoch  77: total training loss 0.00159
+2022-09-06 17:18:55,809 EPOCH 78
+2022-09-06 17:18:56,812 Epoch  78: total training loss 0.00156
+2022-09-06 17:18:56,812 EPOCH 79
+2022-09-06 17:18:57,880 Epoch  79: total training loss 0.00156
+2022-09-06 17:18:57,880 EPOCH 80
+2022-09-06 17:19:17,903 Validation result at epoch  80, step       80: Val DTW Score:  17.32, loss:   0.0089,  duration: 19.0136s
+2022-09-06 17:19:17,904 Epoch  80: total training loss 0.00153
+2022-09-06 17:19:17,904 EPOCH 81
+2022-09-06 17:19:19,013 Epoch  81: total training loss 0.00152
+2022-09-06 17:19:19,014 EPOCH 82
+2022-09-06 17:19:19,884 Epoch  82: total training loss 0.00152
+2022-09-06 17:19:19,885 EPOCH 83
+2022-09-06 17:19:20,730 Epoch  83: total training loss 0.00148
+2022-09-06 17:19:20,730 EPOCH 84
+2022-09-06 17:19:21,536 Epoch  84: total training loss 0.00148
+2022-09-06 17:19:21,537 EPOCH 85
+2022-09-06 17:19:22,447 Epoch  85: total training loss 0.00145
+2022-09-06 17:19:22,448 EPOCH 86
+2022-09-06 17:19:23,505 Epoch  86: total training loss 0.00145
+2022-09-06 17:19:23,505 EPOCH 87
+2022-09-06 17:19:24,620 Epoch  87: total training loss 0.00144
+2022-09-06 17:19:24,620 EPOCH 88
+2022-09-06 17:19:25,592 Epoch  88: total training loss 0.00142
+2022-09-06 17:19:25,592 EPOCH 89
+2022-09-06 17:19:26,574 Epoch  89: total training loss 0.00141
+2022-09-06 17:19:26,574 EPOCH 90
+2022-09-06 17:19:44,412 Validation result at epoch  90, step       90: Val DTW Score:  17.54, loss:   0.0089,  duration: 16.5800s
+2022-09-06 17:19:44,413 Epoch  90: total training loss 0.00139
+2022-09-06 17:19:44,414 EPOCH 91
+2022-09-06 17:19:45,094 Epoch  91: total training loss 0.00138
+2022-09-06 17:19:45,094 EPOCH 92
+2022-09-06 17:19:45,939 Epoch  92: total training loss 0.00137
+2022-09-06 17:19:45,939 EPOCH 93
+2022-09-06 17:19:46,629 Epoch  93: total training loss 0.00136
+2022-09-06 17:19:46,630 EPOCH 94
+2022-09-06 17:19:47,364 Epoch  94: total training loss 0.00135
+2022-09-06 17:19:47,364 EPOCH 95
+2022-09-06 17:19:48,207 Epoch  95: total training loss 0.00134
+2022-09-06 17:19:48,207 EPOCH 96
+2022-09-06 17:19:49,011 Epoch  96: total training loss 0.00132
+2022-09-06 17:19:49,011 EPOCH 97
+2022-09-06 17:19:49,788 Epoch  97: total training loss 0.00131
+2022-09-06 17:19:49,788 EPOCH 98
+2022-09-06 17:19:50,721 Epoch  98: total training loss 0.00131
+2022-09-06 17:19:50,722 EPOCH 99
+2022-09-06 17:19:51,962 Epoch  99: total training loss 0.00129
+2022-09-06 17:19:51,963 EPOCH 100
+2022-09-06 17:20:11,729 Validation result at epoch 100, step      100: Val DTW Score:  17.68, loss:   0.0088,  duration: 18.6355s
+2022-09-06 17:20:11,731 Epoch 100: total training loss 0.00128
+2022-09-06 17:20:11,731 EPOCH 101
+2022-09-06 17:20:12,677 Epoch 101: total training loss 0.00127
+2022-09-06 17:20:12,677 EPOCH 102
+2022-09-06 17:20:13,475 Epoch 102: total training loss 0.00127
+2022-09-06 17:20:13,475 EPOCH 103
+2022-09-06 17:20:14,208 Epoch 103: total training loss 0.00126
+2022-09-06 17:20:14,208 EPOCH 104
+2022-09-06 17:20:14,917 Epoch 104: total training loss 0.00125
+2022-09-06 17:20:14,918 EPOCH 105
+2022-09-06 17:20:15,623 Epoch 105: total training loss 0.00124
+2022-09-06 17:20:15,623 EPOCH 106
+2022-09-06 17:20:16,354 Epoch 106: total training loss 0.00123
+2022-09-06 17:20:16,354 EPOCH 107
+2022-09-06 17:20:17,136 Epoch 107: total training loss 0.00122
+2022-09-06 17:20:17,137 EPOCH 108
+2022-09-06 17:20:17,884 Epoch 108: total training loss 0.00121
+2022-09-06 17:20:17,885 EPOCH 109
+2022-09-06 17:20:18,679 Epoch 109: total training loss 0.00119
+2022-09-06 17:20:18,679 EPOCH 110
+2022-09-06 17:20:36,997 Validation result at epoch 110, step      110: Val DTW Score:  17.77, loss:   0.0088,  duration: 17.5282s
+2022-09-06 17:20:36,999 Epoch 110: total training loss 0.00119
+2022-09-06 17:20:36,999 EPOCH 111
+2022-09-06 17:20:38,149 Epoch 111: total training loss 0.00118
+2022-09-06 17:20:38,149 EPOCH 112
+2022-09-06 17:20:39,020 Epoch 112: total training loss 0.00118
+2022-09-06 17:20:39,020 EPOCH 113
+2022-09-06 17:20:39,763 Epoch 113: total training loss 0.00117
+2022-09-06 17:20:39,763 EPOCH 114
+2022-09-06 17:20:40,481 Epoch 114: total training loss 0.00117
+2022-09-06 17:20:40,481 EPOCH 115
+2022-09-06 17:20:41,443 Epoch 115: total training loss 0.00115
+2022-09-06 17:20:41,444 EPOCH 116
+2022-09-06 17:20:42,266 Epoch 116: total training loss 0.00115
+2022-09-06 17:20:42,267 EPOCH 117
+2022-09-06 17:20:43,040 Epoch 117: total training loss 0.00114
+2022-09-06 17:20:43,041 EPOCH 118
+2022-09-06 17:20:44,170 Epoch 118: total training loss 0.00113
+2022-09-06 17:20:44,170 EPOCH 119
+2022-09-06 17:20:44,960 Epoch 119: total training loss 0.00112
+2022-09-06 17:20:44,961 EPOCH 120
+2022-09-06 17:21:02,533 Validation result at epoch 120, step      120: Val DTW Score:  17.90, loss:   0.0088,  duration: 16.7732s
+2022-09-06 17:21:02,535 Epoch 120: total training loss 0.00112
+2022-09-06 17:21:02,535 EPOCH 121
+2022-09-06 17:21:03,861 Epoch 121: total training loss 0.00111
+2022-09-06 17:21:03,861 EPOCH 122
+2022-09-06 17:21:04,760 Epoch 122: total training loss 0.00111
+2022-09-06 17:21:04,760 EPOCH 123
+2022-09-06 17:21:05,553 Epoch 123: total training loss 0.00110
+2022-09-06 17:21:05,553 EPOCH 124
+2022-09-06 17:21:06,436 Epoch 124: total training loss 0.00110
+2022-09-06 17:21:06,436 EPOCH 125
+2022-09-06 17:21:07,343 Epoch 125: total training loss 0.00109
+2022-09-06 17:21:07,343 EPOCH 126
+2022-09-06 17:21:08,341 Epoch 126: total training loss 0.00109
+2022-09-06 17:21:08,341 EPOCH 127
+2022-09-06 17:21:09,069 Epoch 127: total training loss 0.00107
+2022-09-06 17:21:09,069 EPOCH 128
+2022-09-06 17:21:09,801 Epoch 128: total training loss 0.00107
+2022-09-06 17:21:09,801 EPOCH 129
+2022-09-06 17:21:10,496 Epoch 129: total training loss 0.00107
+2022-09-06 17:21:10,496 EPOCH 130
+2022-09-06 17:21:27,028 Validation result at epoch 130, step      130: Val DTW Score:  18.02, loss:   0.0088,  duration: 15.8419s
+2022-09-06 17:21:27,029 Epoch 130: total training loss 0.00106
+2022-09-06 17:21:27,029 EPOCH 131
+2022-09-06 17:21:27,788 Epoch 131: total training loss 0.00106
+2022-09-06 17:21:27,789 EPOCH 132
+2022-09-06 17:21:28,657 Epoch 132: total training loss 0.00105
+2022-09-06 17:21:28,657 EPOCH 133
+2022-09-06 17:21:29,538 Epoch 133: total training loss 0.00105
+2022-09-06 17:21:29,538 EPOCH 134
+2022-09-06 17:21:30,457 Epoch 134: total training loss 0.00105
+2022-09-06 17:21:30,457 EPOCH 135
+2022-09-06 17:21:31,400 Epoch 135: total training loss 0.00104
+2022-09-06 17:21:31,400 EPOCH 136
+2022-09-06 17:21:32,221 Epoch 136: total training loss 0.00104
+2022-09-06 17:21:32,221 EPOCH 137
+2022-09-06 17:21:32,987 Epoch 137: total training loss 0.00103
+2022-09-06 17:21:32,987 EPOCH 138
+2022-09-06 17:21:33,920 Epoch 138: total training loss 0.00103
+2022-09-06 17:21:33,920 EPOCH 139
+2022-09-06 17:21:34,767 Epoch 139: total training loss 0.00102
+2022-09-06 17:21:34,767 EPOCH 140
+2022-09-06 17:21:53,660 Validation result at epoch 140, step      140: Val DTW Score:  18.09, loss:   0.0087,  duration: 18.1324s
+2022-09-06 17:21:53,662 Epoch 140: total training loss 0.00102
+2022-09-06 17:21:53,662 EPOCH 141
+2022-09-06 17:21:54,692 Epoch 141: total training loss 0.00101
+2022-09-06 17:21:54,692 EPOCH 142
+2022-09-06 17:21:55,566 Epoch 142: total training loss 0.00101
+2022-09-06 17:21:55,567 EPOCH 143
+2022-09-06 17:21:56,419 Epoch 143: total training loss 0.00101
+2022-09-06 17:21:56,419 EPOCH 144
+2022-09-06 17:21:57,155 Epoch 144: total training loss 0.00100
+2022-09-06 17:21:57,155 EPOCH 145
+2022-09-06 17:21:57,934 Epoch 145: total training loss 0.00099
+2022-09-06 17:21:57,935 EPOCH 146
+2022-09-06 17:21:59,376 Epoch 146: total training loss 0.00100
+2022-09-06 17:21:59,376 EPOCH 147
+2022-09-06 17:22:00,617 Epoch 147: total training loss 0.00099
+2022-09-06 17:22:00,617 EPOCH 148
+2022-09-06 17:22:01,625 Epoch 148: total training loss 0.00098
+2022-09-06 17:22:01,625 EPOCH 149
+2022-09-06 17:22:02,375 Epoch 149: total training loss 0.00098
+2022-09-06 17:22:02,375 EPOCH 150
+2022-09-06 17:22:19,474 Validation result at epoch 150, step      150: Val DTW Score:  21.60, loss:   0.0087,  duration: 16.3789s
+2022-09-06 17:22:19,475 Epoch 150: total training loss 0.00098
+2022-09-06 17:22:19,475 EPOCH 151
+2022-09-06 17:22:20,267 Epoch 151: total training loss 0.00097
+2022-09-06 17:22:20,268 EPOCH 152
+2022-09-06 17:22:21,012 Epoch 152: total training loss 0.00098
+2022-09-06 17:22:21,012 EPOCH 153
+2022-09-06 17:22:21,770 Epoch 153: total training loss 0.00097
+2022-09-06 17:22:21,771 EPOCH 154
+2022-09-06 17:22:22,537 Epoch 154: total training loss 0.00096
+2022-09-06 17:22:22,537 EPOCH 155
+2022-09-06 17:22:23,231 Epoch 155: total training loss 0.00097
+2022-09-06 17:22:23,232 EPOCH 156
+2022-09-06 17:22:23,950 Epoch 156: total training loss 0.00096
+2022-09-06 17:22:23,950 EPOCH 157
+2022-09-06 17:22:24,718 Epoch 157: total training loss 0.00096
+2022-09-06 17:22:24,718 EPOCH 158
+2022-09-06 17:22:25,504 Epoch 158: total training loss 0.00096
+2022-09-06 17:22:25,504 EPOCH 159
+2022-09-06 17:22:26,208 Epoch 159: total training loss 0.00096
+2022-09-06 17:22:26,208 EPOCH 160
+2022-09-06 17:22:42,410 Validation result at epoch 160, step      160: Val DTW Score:  18.22, loss:   0.0086,  duration: 15.4432s
+2022-09-06 17:22:42,411 Epoch 160: total training loss 0.00096
+2022-09-06 17:22:42,411 EPOCH 161
+2022-09-06 17:22:43,028 Epoch 161: total training loss 0.00095
+2022-09-06 17:22:43,029 EPOCH 162
+2022-09-06 17:22:43,990 Epoch 162: total training loss 0.00095
+2022-09-06 17:22:43,990 EPOCH 163
+2022-09-06 17:22:44,849 Epoch 163: total training loss 0.00095
+2022-09-06 17:22:44,849 EPOCH 164
+2022-09-06 17:22:45,720 Epoch 164: total training loss 0.00094
+2022-09-06 17:22:45,721 EPOCH 165
+2022-09-06 17:22:46,633 Epoch 165: total training loss 0.00094
+2022-09-06 17:22:46,634 EPOCH 166
+2022-09-06 17:22:47,602 Epoch 166: total training loss 0.00094
+2022-09-06 17:22:47,602 EPOCH 167
+2022-09-06 17:22:48,458 Epoch 167: total training loss 0.00094
+2022-09-06 17:22:48,459 EPOCH 168
+2022-09-06 17:22:49,289 Epoch 168: total training loss 0.00094
+2022-09-06 17:22:49,289 EPOCH 169
+2022-09-06 17:22:50,095 Epoch 169: total training loss 0.00093
+2022-09-06 17:22:50,095 EPOCH 170
+2022-09-06 17:23:07,954 Validation result at epoch 170, step      170: Val DTW Score:  21.77, loss:   0.0086,  duration: 17.0068s
+2022-09-06 17:23:07,956 Epoch 170: total training loss 0.00093
+2022-09-06 17:23:07,956 EPOCH 171
+2022-09-06 17:23:09,235 Epoch 171: total training loss 0.00093
+2022-09-06 17:23:09,235 EPOCH 172
+2022-09-06 17:23:10,311 Epoch 172: total training loss 0.00093
+2022-09-06 17:23:10,311 EPOCH 173
+2022-09-06 17:23:11,317 Epoch 173: total training loss 0.00093
+2022-09-06 17:23:11,317 EPOCH 174
+2022-09-06 17:23:12,743 Epoch 174: total training loss 0.00092
+2022-09-06 17:23:12,744 EPOCH 175
+2022-09-06 17:23:13,651 Epoch 175: total training loss 0.00092
+2022-09-06 17:23:13,652 EPOCH 176
+2022-09-06 17:23:14,723 Epoch 176: total training loss 0.00092
+2022-09-06 17:23:14,724 EPOCH 177
+2022-09-06 17:23:16,022 Epoch 177: total training loss 0.00092
+2022-09-06 17:23:16,022 EPOCH 178
+2022-09-06 17:23:17,006 Epoch 178: total training loss 0.00092
+2022-09-06 17:23:17,007 EPOCH 179
+2022-09-06 17:23:18,281 Epoch 179: total training loss 0.00091
+2022-09-06 17:23:18,282 EPOCH 180
+2022-09-06 17:23:34,866 Validation result at epoch 180, step      180: Val DTW Score:  21.75, loss:   0.0086,  duration: 15.4336s
+2022-09-06 17:23:34,867 Epoch 180: total training loss 0.00091
+2022-09-06 17:23:34,867 EPOCH 181
+2022-09-06 17:23:36,002 Epoch 181: total training loss 0.00091
+2022-09-06 17:23:36,003 EPOCH 182
+2022-09-06 17:23:36,990 Epoch 182: total training loss 0.00091
+2022-09-06 17:23:36,990 EPOCH 183
+2022-09-06 17:23:37,722 Epoch 183: total training loss 0.00091
+2022-09-06 17:23:37,722 EPOCH 184
+2022-09-06 17:23:38,516 Epoch 184: total training loss 0.00090
+2022-09-06 17:23:38,516 EPOCH 185
+2022-09-06 17:23:39,486 Epoch 185: total training loss 0.00090
+2022-09-06 17:23:39,486 EPOCH 186
+2022-09-06 17:23:40,290 Epoch 186: total training loss 0.00090
+2022-09-06 17:23:40,290 EPOCH 187
+2022-09-06 17:23:41,141 Epoch 187: total training loss 0.00090
+2022-09-06 17:23:41,142 EPOCH 188
+2022-09-06 17:23:41,893 Epoch 188: total training loss 0.00090
+2022-09-06 17:23:41,893 EPOCH 189
+2022-09-06 17:23:42,591 Epoch 189: total training loss 0.00090
+2022-09-06 17:23:42,591 EPOCH 190
+2022-09-06 17:23:59,657 Validation result at epoch 190, step      190: Val DTW Score:  21.86, loss:   0.0085,  duration: 16.3457s
+2022-09-06 17:23:59,659 Epoch 190: total training loss 0.00089
+2022-09-06 17:23:59,659 EPOCH 191
+2022-09-06 17:24:00,582 Epoch 191: total training loss 0.00089
+2022-09-06 17:24:00,583 EPOCH 192
+2022-09-06 17:24:01,386 Epoch 192: total training loss 0.00089
+2022-09-06 17:24:01,387 EPOCH 193
+2022-09-06 17:24:02,263 Epoch 193: total training loss 0.00089
+2022-09-06 17:24:02,263 EPOCH 194
+2022-09-06 17:24:03,589 Epoch 194: total training loss 0.00089
+2022-09-06 17:24:03,590 EPOCH 195
+2022-09-06 17:24:04,477 Epoch 195: total training loss 0.00088
+2022-09-06 17:24:04,478 EPOCH 196
+2022-09-06 17:24:05,249 Epoch 196: total training loss 0.00088
+2022-09-06 17:24:05,249 EPOCH 197
+2022-09-06 17:24:05,976 Epoch 197: total training loss 0.00088
+2022-09-06 17:24:05,977 EPOCH 198
+2022-09-06 17:24:06,759 Epoch 198: total training loss 0.00088
+2022-09-06 17:24:06,759 EPOCH 199
+2022-09-06 17:24:07,490 Epoch 199: total training loss 0.00088
+2022-09-06 17:24:07,491 EPOCH 200
+2022-09-06 17:24:24,422 Validation result at epoch 200, step      200: Val DTW Score:  21.91, loss:   0.0085,  duration: 16.0469s
+2022-09-06 17:24:24,423 Epoch 200: total training loss 0.00088
+2022-09-06 17:24:24,423 EPOCH 201
+2022-09-06 17:24:25,548 Epoch 201: total training loss 0.00087
+2022-09-06 17:24:25,548 EPOCH 202
+2022-09-06 17:24:26,486 Epoch 202: total training loss 0.00087
+2022-09-06 17:24:26,486 EPOCH 203
+2022-09-06 17:24:27,428 Epoch 203: total training loss 0.00087
+2022-09-06 17:24:27,429 EPOCH 204
+2022-09-06 17:24:28,461 Epoch 204: total training loss 0.00087
+2022-09-06 17:24:28,461 EPOCH 205
+2022-09-06 17:24:29,310 Epoch 205: total training loss 0.00087
+2022-09-06 17:24:29,310 EPOCH 206
+2022-09-06 17:24:30,188 Epoch 206: total training loss 0.00087
+2022-09-06 17:24:30,189 EPOCH 207
+2022-09-06 17:24:31,074 Epoch 207: total training loss 0.00087
+2022-09-06 17:24:31,074 EPOCH 208
+2022-09-06 17:24:31,962 Epoch 208: total training loss 0.00086
+2022-09-06 17:24:31,963 EPOCH 209
+2022-09-06 17:24:32,926 Epoch 209: total training loss 0.00086
+2022-09-06 17:24:32,926 EPOCH 210
+2022-09-06 17:24:52,719 Validation result at epoch 210, step      210: Val DTW Score:  21.96, loss:   0.0084,  duration: 18.9824s
+2022-09-06 17:24:52,720 Epoch 210: total training loss 0.00086
+2022-09-06 17:24:52,720 EPOCH 211
+2022-09-06 17:24:53,756 Epoch 211: total training loss 0.00086
+2022-09-06 17:24:53,756 EPOCH 212
+2022-09-06 17:24:54,779 Epoch 212: total training loss 0.00086
+2022-09-06 17:24:54,780 EPOCH 213
+2022-09-06 17:24:55,708 Epoch 213: total training loss 0.00085
+2022-09-06 17:24:55,709 EPOCH 214
+2022-09-06 17:24:56,600 Epoch 214: total training loss 0.00085
+2022-09-06 17:24:56,601 EPOCH 215
+2022-09-06 17:24:57,463 Epoch 215: total training loss 0.00085
+2022-09-06 17:24:57,464 EPOCH 216
+2022-09-06 17:24:58,219 Epoch 216: total training loss 0.00085
+2022-09-06 17:24:58,220 EPOCH 217
+2022-09-06 17:24:58,925 Epoch 217: total training loss 0.00085
+2022-09-06 17:24:58,926 EPOCH 218
+2022-09-06 17:24:59,688 Epoch 218: total training loss 0.00085
+2022-09-06 17:24:59,688 EPOCH 219
+2022-09-06 17:25:00,715 Epoch 219: total training loss 0.00085
+2022-09-06 17:25:00,716 EPOCH 220
+2022-09-06 17:25:18,267 Validation result at epoch 220, step      220: Val DTW Score:  22.00, loss:   0.0083,  duration: 16.6967s
+2022-09-06 17:25:18,268 Epoch 220: total training loss 0.00084
+2022-09-06 17:25:18,268 EPOCH 221
+2022-09-06 17:25:19,108 Epoch 221: total training loss 0.00084
+2022-09-06 17:25:19,108 EPOCH 222
+2022-09-06 17:25:20,311 Epoch 222: total training loss 0.00084
+2022-09-06 17:25:20,312 EPOCH 223
+2022-09-06 17:25:21,113 Epoch 223: total training loss 0.00084
+2022-09-06 17:25:21,114 EPOCH 224
+2022-09-06 17:25:21,943 Epoch 224: total training loss 0.00084
+2022-09-06 17:25:21,943 EPOCH 225
+2022-09-06 17:25:22,886 Epoch 225: total training loss 0.00084
+2022-09-06 17:25:22,887 EPOCH 226
+2022-09-06 17:25:23,930 Epoch 226: total training loss 0.00083
+2022-09-06 17:25:23,930 EPOCH 227
+2022-09-06 17:25:24,774 Epoch 227: total training loss 0.00083
+2022-09-06 17:25:24,775 EPOCH 228
+2022-09-06 17:25:25,620 Epoch 228: total training loss 0.00083
+2022-09-06 17:25:25,620 EPOCH 229
+2022-09-06 17:25:26,410 Epoch 229: total training loss 0.00083
+2022-09-06 17:25:26,410 EPOCH 230
+2022-09-06 17:25:45,172 Validation result at epoch 230, step      230: Val DTW Score:  18.45, loss:   0.0082,  duration: 17.9404s
+2022-09-06 17:25:45,173 Epoch 230: total training loss 0.00083
+2022-09-06 17:25:45,173 EPOCH 231
+2022-09-06 17:25:46,114 Epoch 231: total training loss 0.00082
+2022-09-06 17:25:46,114 EPOCH 232
+2022-09-06 17:25:46,891 Epoch 232: total training loss 0.00083
+2022-09-06 17:25:46,892 EPOCH 233
+2022-09-06 17:25:47,613 Epoch 233: total training loss 0.00082
+2022-09-06 17:25:47,614 EPOCH 234
+2022-09-06 17:25:48,384 Epoch 234: total training loss 0.00082
+2022-09-06 17:25:48,384 EPOCH 235
+2022-09-06 17:25:49,116 Epoch 235: total training loss 0.00082
+2022-09-06 17:25:49,116 EPOCH 236
+2022-09-06 17:25:49,812 Epoch 236: total training loss 0.00082
+2022-09-06 17:25:49,812 EPOCH 237
+2022-09-06 17:25:50,559 Epoch 237: total training loss 0.00082
+2022-09-06 17:25:50,559 EPOCH 238
+2022-09-06 17:25:51,302 Epoch 238: total training loss 0.00082
+2022-09-06 17:25:51,302 EPOCH 239
+2022-09-06 17:25:52,095 Epoch 239: total training loss 0.00081
+2022-09-06 17:25:52,095 EPOCH 240
+2022-09-06 17:26:07,536 Validation result at epoch 240, step      240: Val DTW Score:  18.47, loss:   0.0081,  duration: 14.6996s
+2022-09-06 17:26:07,538 Epoch 240: total training loss 0.00081
+2022-09-06 17:26:07,538 EPOCH 241
+2022-09-06 17:26:08,180 Epoch 241: total training loss 0.00081
+2022-09-06 17:26:08,181 EPOCH 242
+2022-09-06 17:26:09,052 Epoch 242: total training loss 0.00082
+2022-09-06 17:26:09,052 EPOCH 243
+2022-09-06 17:26:10,223 Epoch 243: total training loss 0.00081
+2022-09-06 17:26:10,223 EPOCH 244
+2022-09-06 17:26:11,670 Epoch 244: total training loss 0.00081
+2022-09-06 17:26:11,670 EPOCH 245
+2022-09-06 17:26:12,972 Epoch 245: total training loss 0.00081
+2022-09-06 17:26:12,973 EPOCH 246
+2022-09-06 17:26:13,973 Epoch 246: total training loss 0.00081
+2022-09-06 17:26:13,973 EPOCH 247
+2022-09-06 17:26:14,905 Epoch 247: total training loss 0.00081
+2022-09-06 17:26:14,905 EPOCH 248
+2022-09-06 17:26:15,764 Epoch 248: total training loss 0.00081
+2022-09-06 17:26:15,764 EPOCH 249
+2022-09-06 17:26:16,552 Epoch 249: total training loss 0.00081
+2022-09-06 17:26:16,552 EPOCH 250
+2022-09-06 17:26:17,272 Epoch 250 Step:      250 Batch Loss:     0.000804 Tokens per Sec:   193104, Lr: 0.000490
+2022-09-06 17:26:33,595 Validation result at epoch 250, step      250: Val DTW Score:  18.56, loss:   0.0081,  duration: 16.3227s
+2022-09-06 17:26:33,597 Epoch 250: total training loss 0.00080
+2022-09-06 17:26:33,597 EPOCH 251
+2022-09-06 17:26:34,458 Epoch 251: total training loss 0.00080
+2022-09-06 17:26:34,458 EPOCH 252
+2022-09-06 17:26:35,275 Epoch 252: total training loss 0.00080
+2022-09-06 17:26:35,276 EPOCH 253
+2022-09-06 17:26:35,999 Epoch 253: total training loss 0.00080
+2022-09-06 17:26:35,999 EPOCH 254
+2022-09-06 17:26:36,725 Epoch 254: total training loss 0.00080
+2022-09-06 17:26:36,725 EPOCH 255
+2022-09-06 17:26:37,510 Epoch 255: total training loss 0.00080
+2022-09-06 17:26:37,510 EPOCH 256
+2022-09-06 17:26:38,219 Epoch 256: total training loss 0.00080
+2022-09-06 17:26:38,220 EPOCH 257
+2022-09-06 17:26:39,042 Epoch 257: total training loss 0.00080
+2022-09-06 17:26:39,042 EPOCH 258
+2022-09-06 17:26:39,875 Epoch 258: total training loss 0.00080
+2022-09-06 17:26:39,875 EPOCH 259
+2022-09-06 17:26:40,664 Epoch 259: total training loss 0.00080
+2022-09-06 17:26:40,664 EPOCH 260
+2022-09-06 17:27:00,923 Validation result at epoch 260, step      260: Val DTW Score:  18.62, loss:   0.0080,  duration: 19.4349s
+2022-09-06 17:27:00,924 Epoch 260: total training loss 0.00079
+2022-09-06 17:27:00,924 EPOCH 261
+2022-09-06 17:27:01,980 Epoch 261: total training loss 0.00079
+2022-09-06 17:27:01,980 EPOCH 262
+2022-09-06 17:27:02,925 Epoch 262: total training loss 0.00079
+2022-09-06 17:27:02,925 EPOCH 263
+2022-09-06 17:27:03,735 Epoch 263: total training loss 0.00079
+2022-09-06 17:27:03,735 EPOCH 264
+2022-09-06 17:27:04,550 Epoch 264: total training loss 0.00079
+2022-09-06 17:27:04,550 EPOCH 265
+2022-09-06 17:27:05,362 Epoch 265: total training loss 0.00079
+2022-09-06 17:27:05,362 EPOCH 266
+2022-09-06 17:27:06,148 Epoch 266: total training loss 0.00079
+2022-09-06 17:27:06,148 EPOCH 267
+2022-09-06 17:27:06,910 Epoch 267: total training loss 0.00079
+2022-09-06 17:27:06,910 EPOCH 268
+2022-09-06 17:27:07,745 Epoch 268: total training loss 0.00079
+2022-09-06 17:27:07,745 EPOCH 269
+2022-09-06 17:27:08,844 Epoch 269: total training loss 0.00079
+2022-09-06 17:27:08,845 EPOCH 270
+2022-09-06 17:27:27,215 Validation result at epoch 270, step      270: Val DTW Score:  18.66, loss:   0.0080,  duration: 17.3042s
+2022-09-06 17:27:27,216 Epoch 270: total training loss 0.00079
+2022-09-06 17:27:27,216 EPOCH 271
+2022-09-06 17:27:28,108 Epoch 271: total training loss 0.00078
+2022-09-06 17:27:28,109 EPOCH 272
+2022-09-06 17:27:28,885 Epoch 272: total training loss 0.00078
+2022-09-06 17:27:28,885 EPOCH 273
+2022-09-06 17:27:29,801 Epoch 273: total training loss 0.00078
+2022-09-06 17:27:29,801 EPOCH 274
+2022-09-06 17:27:30,745 Epoch 274: total training loss 0.00078
+2022-09-06 17:27:30,746 EPOCH 275
+2022-09-06 17:27:31,768 Epoch 275: total training loss 0.00078
+2022-09-06 17:27:31,769 EPOCH 276
+2022-09-06 17:27:32,798 Epoch 276: total training loss 0.00078
+2022-09-06 17:27:32,799 EPOCH 277
+2022-09-06 17:27:33,649 Epoch 277: total training loss 0.00078
+2022-09-06 17:27:33,650 EPOCH 278
+2022-09-06 17:27:34,378 Epoch 278: total training loss 0.00077
+2022-09-06 17:27:34,378 EPOCH 279
+2022-09-06 17:27:35,102 Epoch 279: total training loss 0.00078
+2022-09-06 17:27:35,103 EPOCH 280
+2022-09-06 17:27:51,397 Validation result at epoch 280, step      280: Val DTW Score:  18.75, loss:   0.0080,  duration: 15.4622s
+2022-09-06 17:27:51,398 Epoch 280: total training loss 0.00077
+2022-09-06 17:27:51,398 EPOCH 281
+2022-09-06 17:27:52,327 Epoch 281: total training loss 0.00077
+2022-09-06 17:27:52,328 EPOCH 282
+2022-09-06 17:27:53,121 Epoch 282: total training loss 0.00077
+2022-09-06 17:27:53,121 EPOCH 283
+2022-09-06 17:27:53,855 Epoch 283: total training loss 0.00077
+2022-09-06 17:27:53,856 EPOCH 284
+2022-09-06 17:27:54,586 Epoch 284: total training loss 0.00077
+2022-09-06 17:27:54,586 EPOCH 285
+2022-09-06 17:27:55,348 Epoch 285: total training loss 0.00076
+2022-09-06 17:27:55,348 EPOCH 286
+2022-09-06 17:27:56,354 Epoch 286: total training loss 0.00077
+2022-09-06 17:27:56,354 EPOCH 287
+2022-09-06 17:27:57,352 Epoch 287: total training loss 0.00076
+2022-09-06 17:27:57,353 EPOCH 288
+2022-09-06 17:27:58,212 Epoch 288: total training loss 0.00076
+2022-09-06 17:27:58,213 EPOCH 289
+2022-09-06 17:27:59,075 Epoch 289: total training loss 0.00076
+2022-09-06 17:27:59,075 EPOCH 290
+2022-09-06 17:28:19,399 Validation result at epoch 290, step      290: Val DTW Score:  18.80, loss:   0.0079,  duration: 19.4604s
+2022-09-06 17:28:19,400 Epoch 290: total training loss 0.00076
+2022-09-06 17:28:19,400 EPOCH 291
+2022-09-06 17:28:20,336 Epoch 291: total training loss 0.00076
+2022-09-06 17:28:20,336 EPOCH 292
+2022-09-06 17:28:21,090 Epoch 292: total training loss 0.00076
+2022-09-06 17:28:21,091 EPOCH 293
+2022-09-06 17:28:21,806 Epoch 293: total training loss 0.00076
+2022-09-06 17:28:21,807 EPOCH 294
+2022-09-06 17:28:22,511 Epoch 294: total training loss 0.00076
+2022-09-06 17:28:22,511 EPOCH 295
+2022-09-06 17:28:23,236 Epoch 295: total training loss 0.00076
+2022-09-06 17:28:23,236 EPOCH 296
+2022-09-06 17:28:23,935 Epoch 296: total training loss 0.00075
+2022-09-06 17:28:23,935 EPOCH 297
+2022-09-06 17:28:24,643 Epoch 297: total training loss 0.00075
+2022-09-06 17:28:24,643 EPOCH 298
+2022-09-06 17:28:25,351 Epoch 298: total training loss 0.00075
+2022-09-06 17:28:25,351 EPOCH 299
+2022-09-06 17:28:26,081 Epoch 299: total training loss 0.00075
+2022-09-06 17:28:26,081 EPOCH 300
+2022-09-06 17:28:46,381 Validation result at epoch 300, step      300: Val DTW Score:  18.82, loss:   0.0079,  duration: 19.6061s
+2022-09-06 17:28:46,382 Epoch 300: total training loss 0.00075
+2022-09-06 17:28:46,382 EPOCH 301
+2022-09-06 17:28:47,591 Epoch 301: total training loss 0.00075
+2022-09-06 17:28:47,591 EPOCH 302
+2022-09-06 17:28:48,425 Epoch 302: total training loss 0.00075
+2022-09-06 17:28:48,426 EPOCH 303
+2022-09-06 17:28:49,232 Epoch 303: total training loss 0.00075
+2022-09-06 17:28:49,245 EPOCH 304
+2022-09-06 17:28:50,287 Epoch 304: total training loss 0.00074
+2022-09-06 17:28:50,288 EPOCH 305
+2022-09-06 17:28:51,290 Epoch 305: total training loss 0.00075
+2022-09-06 17:28:51,291 EPOCH 306
+2022-09-06 17:28:52,314 Epoch 306: total training loss 0.00075
+2022-09-06 17:28:52,315 EPOCH 307
+2022-09-06 17:28:53,240 Epoch 307: total training loss 0.00074
+2022-09-06 17:28:53,241 EPOCH 308
+2022-09-06 17:28:55,023 Epoch 308: total training loss 0.00074
+2022-09-06 17:28:55,024 EPOCH 309
+2022-09-06 17:28:55,862 Epoch 309: total training loss 0.00074
+2022-09-06 17:28:55,863 EPOCH 310
+2022-09-06 17:29:15,054 Validation result at epoch 310, step      310: Val DTW Score:  18.86, loss:   0.0079,  duration: 18.3372s
+2022-09-06 17:29:15,055 Epoch 310: total training loss 0.00074
+2022-09-06 17:29:15,055 EPOCH 311
+2022-09-06 17:29:15,730 Epoch 311: total training loss 0.00074
+2022-09-06 17:29:15,730 EPOCH 312
+2022-09-06 17:29:16,522 Epoch 312: total training loss 0.00074
+2022-09-06 17:29:16,523 EPOCH 313
+2022-09-06 17:29:17,337 Epoch 313: total training loss 0.00074
+2022-09-06 17:29:17,337 EPOCH 314
+2022-09-06 17:29:18,099 Epoch 314: total training loss 0.00074
+2022-09-06 17:29:18,099 EPOCH 315
+2022-09-06 17:29:18,966 Epoch 315: total training loss 0.00074
+2022-09-06 17:29:18,966 EPOCH 316
+2022-09-06 17:29:19,804 Epoch 316: total training loss 0.00074
+2022-09-06 17:29:19,804 EPOCH 317
+2022-09-06 17:29:20,540 Epoch 317: total training loss 0.00073
+2022-09-06 17:29:20,540 EPOCH 318
+2022-09-06 17:29:21,333 Epoch 318: total training loss 0.00073
+2022-09-06 17:29:21,334 EPOCH 319
+2022-09-06 17:29:22,191 Epoch 319: total training loss 0.00073
+2022-09-06 17:29:22,191 EPOCH 320
+2022-09-06 17:29:40,585 Validation result at epoch 320, step      320: Val DTW Score:  18.90, loss:   0.0079,  duration: 17.5477s
+2022-09-06 17:29:40,586 Epoch 320: total training loss 0.00073
+2022-09-06 17:29:40,586 EPOCH 321
+2022-09-06 17:29:41,611 Epoch 321: total training loss 0.00073
+2022-09-06 17:29:41,612 EPOCH 322
+2022-09-06 17:29:42,546 Epoch 322: total training loss 0.00073
+2022-09-06 17:29:42,546 EPOCH 323
+2022-09-06 17:29:43,455 Epoch 323: total training loss 0.00073
+2022-09-06 17:29:43,456 EPOCH 324
+2022-09-06 17:29:44,285 Epoch 324: total training loss 0.00073
+2022-09-06 17:29:44,285 EPOCH 325
+2022-09-06 17:29:45,105 Epoch 325: total training loss 0.00073
+2022-09-06 17:29:45,105 EPOCH 326
+2022-09-06 17:29:46,258 Epoch 326: total training loss 0.00073
+2022-09-06 17:29:46,258 EPOCH 327
+2022-09-06 17:29:47,332 Epoch 327: total training loss 0.00073
+2022-09-06 17:29:47,333 EPOCH 328
+2022-09-06 17:29:48,183 Epoch 328: total training loss 0.00073
+2022-09-06 17:29:48,184 EPOCH 329
+2022-09-06 17:29:49,014 Epoch 329: total training loss 0.00073
+2022-09-06 17:29:49,014 EPOCH 330
+2022-09-06 17:30:08,646 Validation result at epoch 330, step      330: Val DTW Score:  18.95, loss:   0.0078,  duration: 18.8092s
+2022-09-06 17:30:08,647 Epoch 330: total training loss 0.00073
+2022-09-06 17:30:08,648 EPOCH 331
+2022-09-06 17:30:09,750 Epoch 331: total training loss 0.00072
+2022-09-06 17:30:09,750 EPOCH 332
+2022-09-06 17:30:10,700 Epoch 332: total training loss 0.00073
+2022-09-06 17:30:10,701 EPOCH 333
+2022-09-06 17:30:11,659 Epoch 333: total training loss 0.00073
+2022-09-06 17:30:11,660 EPOCH 334
+2022-09-06 17:30:12,640 Epoch 334: total training loss 0.00072
+2022-09-06 17:30:12,641 EPOCH 335
+2022-09-06 17:30:13,547 Epoch 335: total training loss 0.00072
+2022-09-06 17:30:13,547 EPOCH 336
+2022-09-06 17:30:14,462 Epoch 336: total training loss 0.00072
+2022-09-06 17:30:14,462 EPOCH 337
+2022-09-06 17:30:15,279 Epoch 337: total training loss 0.00072
+2022-09-06 17:30:15,280 EPOCH 338
+2022-09-06 17:30:16,082 Epoch 338: total training loss 0.00072
+2022-09-06 17:30:16,083 EPOCH 339
+2022-09-06 17:30:16,839 Epoch 339: total training loss 0.00072
+2022-09-06 17:30:16,839 EPOCH 340
+2022-09-06 17:30:35,768 Validation result at epoch 340, step      340: Val DTW Score:  19.05, loss:   0.0078,  duration: 18.1367s
+2022-09-06 17:30:35,770 Epoch 340: total training loss 0.00072
+2022-09-06 17:30:35,770 EPOCH 341
+2022-09-06 17:30:36,810 Epoch 341: total training loss 0.00072
+2022-09-06 17:30:36,811 EPOCH 342
+2022-09-06 17:30:37,706 Epoch 342: total training loss 0.00072
+2022-09-06 17:30:37,706 EPOCH 343
+2022-09-06 17:30:39,025 Epoch 343: total training loss 0.00072
+2022-09-06 17:30:39,026 EPOCH 344
+2022-09-06 17:30:40,055 Epoch 344: total training loss 0.00072
+2022-09-06 17:30:40,056 EPOCH 345
+2022-09-06 17:30:40,878 Epoch 345: total training loss 0.00072
+2022-09-06 17:30:40,879 EPOCH 346
+2022-09-06 17:30:41,906 Epoch 346: total training loss 0.00072
+2022-09-06 17:30:41,907 EPOCH 347
+2022-09-06 17:30:42,864 Epoch 347: total training loss 0.00071
+2022-09-06 17:30:42,864 EPOCH 348
+2022-09-06 17:30:43,656 Epoch 348: total training loss 0.00072
+2022-09-06 17:30:43,657 EPOCH 349
+2022-09-06 17:30:44,512 Epoch 349: total training loss 0.00071
+2022-09-06 17:30:44,513 EPOCH 350
+2022-09-06 17:31:00,954 Validation result at epoch 350, step      350: Val DTW Score:  19.12, loss:   0.0078,  duration: 15.5948s
+2022-09-06 17:31:00,955 Epoch 350: total training loss 0.00071
+2022-09-06 17:31:00,955 EPOCH 351
+2022-09-06 17:31:01,964 Epoch 351: total training loss 0.00071
+2022-09-06 17:31:01,965 EPOCH 352
+2022-09-06 17:31:02,771 Epoch 352: total training loss 0.00071
+2022-09-06 17:31:02,772 EPOCH 353
+2022-09-06 17:31:03,515 Epoch 353: total training loss 0.00071
+2022-09-06 17:31:03,516 EPOCH 354
+2022-09-06 17:31:04,317 Epoch 354: total training loss 0.00071
+2022-09-06 17:31:04,318 EPOCH 355
+2022-09-06 17:31:05,119 Epoch 355: total training loss 0.00071
+2022-09-06 17:31:05,119 EPOCH 356
+2022-09-06 17:31:05,894 Epoch 356: total training loss 0.00071
+2022-09-06 17:31:05,895 EPOCH 357
+2022-09-06 17:31:06,768 Epoch 357: total training loss 0.00071
+2022-09-06 17:31:06,769 EPOCH 358
+2022-09-06 17:31:07,489 Epoch 358: total training loss 0.00071
+2022-09-06 17:31:07,489 EPOCH 359
+2022-09-06 17:31:08,179 Epoch 359: total training loss 0.00070
+2022-09-06 17:31:08,179 EPOCH 360
+2022-09-06 17:31:23,465 Validation result at epoch 360, step      360: Val DTW Score:  19.20, loss:   0.0078,  duration: 14.6009s
+2022-09-06 17:31:23,467 Epoch 360: total training loss 0.00070
+2022-09-06 17:31:23,467 EPOCH 361
+2022-09-06 17:31:24,530 Epoch 361: total training loss 0.00070
+2022-09-06 17:31:24,531 EPOCH 362
+2022-09-06 17:31:25,378 Epoch 362: total training loss 0.00070
+2022-09-06 17:31:25,378 EPOCH 363
+2022-09-06 17:31:26,224 Epoch 363: total training loss 0.00070
+2022-09-06 17:31:26,225 EPOCH 364
+2022-09-06 17:31:27,023 Epoch 364: total training loss 0.00070
+2022-09-06 17:31:27,024 EPOCH 365
+2022-09-06 17:31:27,868 Epoch 365: total training loss 0.00070
+2022-09-06 17:31:27,869 EPOCH 366
+2022-09-06 17:31:28,668 Epoch 366: total training loss 0.00070
+2022-09-06 17:31:28,668 EPOCH 367
+2022-09-06 17:31:29,401 Epoch 367: total training loss 0.00070
+2022-09-06 17:31:29,401 EPOCH 368
+2022-09-06 17:31:30,186 Epoch 368: total training loss 0.00070
+2022-09-06 17:31:30,187 EPOCH 369
+2022-09-06 17:31:30,939 Epoch 369: total training loss 0.00070
+2022-09-06 17:31:30,940 EPOCH 370
+2022-09-06 17:31:49,797 Validation result at epoch 370, step      370: Val DTW Score:  19.21, loss:   0.0078,  duration: 18.1272s
+2022-09-06 17:31:49,798 Epoch 370: total training loss 0.00070
+2022-09-06 17:31:49,798 EPOCH 371
+2022-09-06 17:31:50,719 Epoch 371: total training loss 0.00070
+2022-09-06 17:31:50,719 EPOCH 372
+2022-09-06 17:31:51,485 Epoch 372: total training loss 0.00070
+2022-09-06 17:31:51,486 EPOCH 373
+2022-09-06 17:31:52,275 Epoch 373: total training loss 0.00070
+2022-09-06 17:31:52,275 EPOCH 374
+2022-09-06 17:31:52,965 Epoch 374: total training loss 0.00070
+2022-09-06 17:31:52,965 EPOCH 375
+2022-09-06 17:31:53,660 Epoch 375: total training loss 0.00070
+2022-09-06 17:31:53,661 EPOCH 376
+2022-09-06 17:31:54,342 Epoch 376: total training loss 0.00069
+2022-09-06 17:31:54,342 EPOCH 377
+2022-09-06 17:31:55,034 Epoch 377: total training loss 0.00069
+2022-09-06 17:31:55,035 EPOCH 378
+2022-09-06 17:31:55,749 Epoch 378: total training loss 0.00069
+2022-09-06 17:31:55,749 EPOCH 379
+2022-09-06 17:31:56,598 Epoch 379: total training loss 0.00069
+2022-09-06 17:31:56,598 EPOCH 380
+2022-09-06 17:32:14,717 Validation result at epoch 380, step      380: Val DTW Score:  19.16, loss:   0.0078,  duration: 17.1625s
+2022-09-06 17:32:14,718 Epoch 380: total training loss 0.00069
+2022-09-06 17:32:14,718 EPOCH 381
+2022-09-06 17:32:15,592 Epoch 381: total training loss 0.00069
+2022-09-06 17:32:15,592 EPOCH 382
+2022-09-06 17:32:16,339 Epoch 382: total training loss 0.00069
+2022-09-06 17:32:16,339 EPOCH 383
+2022-09-06 17:32:17,051 Epoch 383: total training loss 0.00069
+2022-09-06 17:32:17,051 EPOCH 384
+2022-09-06 17:32:17,735 Epoch 384: total training loss 0.00069
+2022-09-06 17:32:17,735 EPOCH 385
+2022-09-06 17:32:18,430 Epoch 385: total training loss 0.00069
+2022-09-06 17:32:18,431 EPOCH 386
+2022-09-06 17:32:19,120 Epoch 386: total training loss 0.00069
+2022-09-06 17:32:19,120 EPOCH 387
+2022-09-06 17:32:19,812 Epoch 387: total training loss 0.00069
+2022-09-06 17:32:19,813 EPOCH 388
+2022-09-06 17:32:20,517 Epoch 388: total training loss 0.00069
+2022-09-06 17:32:20,517 EPOCH 389
+2022-09-06 17:32:21,267 Epoch 389: total training loss 0.00068
+2022-09-06 17:32:21,268 EPOCH 390
+2022-09-06 17:32:39,908 Validation result at epoch 390, step      390: Val DTW Score:  19.18, loss:   0.0078,  duration: 17.9601s
+2022-09-06 17:32:39,909 Epoch 390: total training loss 0.00068
+2022-09-06 17:32:39,909 EPOCH 391
+2022-09-06 17:32:40,664 Epoch 391: total training loss 0.00068
+2022-09-06 17:32:40,665 EPOCH 392
+2022-09-06 17:32:41,809 Epoch 392: total training loss 0.00068
+2022-09-06 17:32:41,809 EPOCH 393
+2022-09-06 17:32:42,687 Epoch 393: total training loss 0.00068
+2022-09-06 17:32:42,688 EPOCH 394
+2022-09-06 17:32:43,485 Epoch 394: total training loss 0.00068
+2022-09-06 17:32:43,485 EPOCH 395
+2022-09-06 17:32:44,367 Epoch 395: total training loss 0.00068
+2022-09-06 17:32:44,367 EPOCH 396
+2022-09-06 17:32:45,165 Epoch 396: total training loss 0.00068
+2022-09-06 17:32:45,166 EPOCH 397
+2022-09-06 17:32:45,990 Epoch 397: total training loss 0.00068
+2022-09-06 17:32:45,991 EPOCH 398
+2022-09-06 17:32:46,798 Epoch 398: total training loss 0.00068
+2022-09-06 17:32:46,798 EPOCH 399
+2022-09-06 17:32:47,560 Epoch 399: total training loss 0.00068
+2022-09-06 17:32:47,561 EPOCH 400
+2022-09-06 17:33:04,785 Validation result at epoch 400, step      400: Val DTW Score:  19.25, loss:   0.0078,  duration: 16.4475s
+2022-09-06 17:33:04,786 Epoch 400: total training loss 0.00068
+2022-09-06 17:33:04,787 EPOCH 401
+2022-09-06 17:33:05,481 Epoch 401: total training loss 0.00068
+2022-09-06 17:33:05,481 EPOCH 402
+2022-09-06 17:33:06,289 Epoch 402: total training loss 0.00068
+2022-09-06 17:33:06,289 EPOCH 403
+2022-09-06 17:33:07,113 Epoch 403: total training loss 0.00068
+2022-09-06 17:33:07,114 EPOCH 404
+2022-09-06 17:33:07,886 Epoch 404: total training loss 0.00068
+2022-09-06 17:33:07,887 EPOCH 405
+2022-09-06 17:33:08,616 Epoch 405: total training loss 0.00068
+2022-09-06 17:33:08,617 EPOCH 406
+2022-09-06 17:33:09,397 Epoch 406: total training loss 0.00068
+2022-09-06 17:33:09,398 EPOCH 407
+2022-09-06 17:33:10,152 Epoch 407: total training loss 0.00068
+2022-09-06 17:33:10,152 EPOCH 408
+2022-09-06 17:33:10,928 Epoch 408: total training loss 0.00067
+2022-09-06 17:33:10,928 EPOCH 409
+2022-09-06 17:33:11,687 Epoch 409: total training loss 0.00068
+2022-09-06 17:33:11,687 EPOCH 410
+2022-09-06 17:33:30,093 Validation result at epoch 410, step      410: Val DTW Score:  19.25, loss:   0.0078,  duration: 17.6421s
+2022-09-06 17:33:30,094 Epoch 410: total training loss 0.00067
+2022-09-06 17:33:30,094 EPOCH 411
+2022-09-06 17:33:31,296 Epoch 411: total training loss 0.00067
+2022-09-06 17:33:31,297 EPOCH 412
+2022-09-06 17:33:32,284 Epoch 412: total training loss 0.00068
+2022-09-06 17:33:32,284 EPOCH 413
+2022-09-06 17:33:33,196 Epoch 413: total training loss 0.00067
+2022-09-06 17:33:33,196 EPOCH 414
+2022-09-06 17:33:34,065 Epoch 414: total training loss 0.00067
+2022-09-06 17:33:34,066 EPOCH 415
+2022-09-06 17:33:35,043 Epoch 415: total training loss 0.00067
+2022-09-06 17:33:35,044 EPOCH 416
+2022-09-06 17:33:35,844 Epoch 416: total training loss 0.00067
+2022-09-06 17:33:35,844 EPOCH 417
+2022-09-06 17:33:36,584 Epoch 417: total training loss 0.00067
+2022-09-06 17:33:36,584 EPOCH 418
+2022-09-06 17:33:37,414 Epoch 418: total training loss 0.00067
+2022-09-06 17:33:37,415 EPOCH 419
+2022-09-06 17:33:38,332 Epoch 419: total training loss 0.00067
+2022-09-06 17:33:38,333 EPOCH 420
+2022-09-06 17:33:57,634 Validation result at epoch 420, step      420: Val DTW Score:  19.27, loss:   0.0077,  duration: 18.3672s
+2022-09-06 17:33:57,635 Epoch 420: total training loss 0.00067
+2022-09-06 17:33:57,635 EPOCH 421
+2022-09-06 17:33:58,222 Epoch 421: total training loss 0.00067
+2022-09-06 17:33:58,223 EPOCH 422
+2022-09-06 17:33:59,045 Epoch 422: total training loss 0.00067
+2022-09-06 17:33:59,045 EPOCH 423
+2022-09-06 17:33:59,841 Epoch 423: total training loss 0.00067
+2022-09-06 17:33:59,841 EPOCH 424
+2022-09-06 17:34:00,610 Epoch 424: total training loss 0.00067
+2022-09-06 17:34:00,610 EPOCH 425
+2022-09-06 17:34:01,416 Epoch 425: total training loss 0.00067
+2022-09-06 17:34:01,416 EPOCH 426
+2022-09-06 17:34:02,135 Epoch 426: total training loss 0.00067
+2022-09-06 17:34:02,135 EPOCH 427
+2022-09-06 17:34:02,924 Epoch 427: total training loss 0.00067
+2022-09-06 17:34:02,924 EPOCH 428
+2022-09-06 17:34:03,917 Epoch 428: total training loss 0.00067
+2022-09-06 17:34:03,918 EPOCH 429
+2022-09-06 17:34:05,396 Epoch 429: total training loss 0.00067
+2022-09-06 17:34:05,396 EPOCH 430
+2022-09-06 17:34:25,126 Validation result at epoch 430, step      430: Val DTW Score:  19.32, loss:   0.0078,  duration: 18.7162s
+2022-09-06 17:34:25,127 Epoch 430: total training loss 0.00066
+2022-09-06 17:34:25,127 EPOCH 431
+2022-09-06 17:34:25,822 Epoch 431: total training loss 0.00066
+2022-09-06 17:34:25,822 EPOCH 432
+2022-09-06 17:34:26,612 Epoch 432: total training loss 0.00066
+2022-09-06 17:34:26,612 EPOCH 433
+2022-09-06 17:34:27,310 Epoch 433: total training loss 0.00066
+2022-09-06 17:34:27,311 EPOCH 434
+2022-09-06 17:34:28,330 Epoch 434: total training loss 0.00066
+2022-09-06 17:34:28,330 EPOCH 435
+2022-09-06 17:34:29,363 Epoch 435: total training loss 0.00066
+2022-09-06 17:34:29,363 EPOCH 436
+2022-09-06 17:34:30,407 Epoch 436: total training loss 0.00066
+2022-09-06 17:34:30,407 EPOCH 437
+2022-09-06 17:34:31,317 Epoch 437: total training loss 0.00066
+2022-09-06 17:34:31,317 EPOCH 438
+2022-09-06 17:34:32,265 Epoch 438: total training loss 0.00066
+2022-09-06 17:34:32,266 EPOCH 439
+2022-09-06 17:34:33,223 Epoch 439: total training loss 0.00066
+2022-09-06 17:34:33,223 EPOCH 440
+2022-09-06 17:34:53,570 Validation result at epoch 440, step      440: Val DTW Score:  19.35, loss:   0.0077,  duration: 19.4170s
+2022-09-06 17:34:53,571 Epoch 440: total training loss 0.00066
+2022-09-06 17:34:53,572 EPOCH 441
+2022-09-06 17:34:54,459 Epoch 441: total training loss 0.00066
+2022-09-06 17:34:54,459 EPOCH 442
+2022-09-06 17:34:55,269 Epoch 442: total training loss 0.00066
+2022-09-06 17:34:55,270 EPOCH 443
+2022-09-06 17:34:56,075 Epoch 443: total training loss 0.00066
+2022-09-06 17:34:56,075 EPOCH 444
+2022-09-06 17:34:56,980 Epoch 444: total training loss 0.00066
+2022-09-06 17:34:56,981 EPOCH 445
+2022-09-06 17:34:57,777 Epoch 445: total training loss 0.00066
+2022-09-06 17:34:57,778 EPOCH 446
+2022-09-06 17:34:58,705 Epoch 446: total training loss 0.00066
+2022-09-06 17:34:58,706 EPOCH 447
+2022-09-06 17:34:59,647 Epoch 447: total training loss 0.00066
+2022-09-06 17:34:59,648 EPOCH 448
+2022-09-06 17:35:00,722 Epoch 448: total training loss 0.00066
+2022-09-06 17:35:00,723 EPOCH 449
+2022-09-06 17:35:01,780 Epoch 449: total training loss 0.00066
+2022-09-06 17:35:01,780 EPOCH 450
+2022-09-06 17:35:21,718 Validation result at epoch 450, step      450: Val DTW Score:  19.35, loss:   0.0077,  duration: 18.9629s
+2022-09-06 17:35:21,719 Epoch 450: total training loss 0.00065
+2022-09-06 17:35:21,719 EPOCH 451
+2022-09-06 17:35:22,737 Epoch 451: total training loss 0.00065
+2022-09-06 17:35:22,738 EPOCH 452
+2022-09-06 17:35:23,577 Epoch 452: total training loss 0.00065
+2022-09-06 17:35:23,577 EPOCH 453
+2022-09-06 17:35:24,322 Epoch 453: total training loss 0.00065
+2022-09-06 17:35:24,322 EPOCH 454
+2022-09-06 17:35:25,196 Epoch 454: total training loss 0.00065
+2022-09-06 17:35:25,196 EPOCH 455
+2022-09-06 17:35:26,412 Epoch 455: total training loss 0.00065
+2022-09-06 17:35:26,412 EPOCH 456
+2022-09-06 17:35:27,322 Epoch 456: total training loss 0.00065
+2022-09-06 17:35:27,323 EPOCH 457
+2022-09-06 17:35:28,368 Epoch 457: total training loss 0.00065
+2022-09-06 17:35:28,368 EPOCH 458
+2022-09-06 17:35:29,190 Epoch 458: total training loss 0.00065
+2022-09-06 17:35:29,190 EPOCH 459
+2022-09-06 17:35:30,009 Epoch 459: total training loss 0.00065
+2022-09-06 17:35:30,010 EPOCH 460
+2022-09-06 17:35:48,839 Validation result at epoch 460, step      460: Val DTW Score:  19.53, loss:   0.0077,  duration: 17.9362s
+2022-09-06 17:35:48,840 Epoch 460: total training loss 0.00065
+2022-09-06 17:35:48,840 EPOCH 461
+2022-09-06 17:35:50,010 Epoch 461: total training loss 0.00065
+2022-09-06 17:35:50,011 EPOCH 462
+2022-09-06 17:35:51,080 Epoch 462: total training loss 0.00065
+2022-09-06 17:35:51,080 EPOCH 463
+2022-09-06 17:35:52,104 Epoch 463: total training loss 0.00065
+2022-09-06 17:35:52,105 EPOCH 464
+2022-09-06 17:35:52,974 Epoch 464: total training loss 0.00065
+2022-09-06 17:35:52,974 EPOCH 465
+2022-09-06 17:35:53,794 Epoch 465: total training loss 0.00064
+2022-09-06 17:35:53,795 EPOCH 466
+2022-09-06 17:35:54,548 Epoch 466: total training loss 0.00065
+2022-09-06 17:35:54,548 EPOCH 467
+2022-09-06 17:35:55,388 Epoch 467: total training loss 0.00065
+2022-09-06 17:35:55,389 EPOCH 468
+2022-09-06 17:35:56,269 Epoch 468: total training loss 0.00064
+2022-09-06 17:35:56,269 EPOCH 469
+2022-09-06 17:35:57,132 Epoch 469: total training loss 0.00064
+2022-09-06 17:35:57,133 EPOCH 470
+2022-09-06 17:36:16,551 Validation result at epoch 470, step      470: Val DTW Score:  19.55, loss:   0.0077,  duration: 18.5720s
+2022-09-06 17:36:16,553 Training ended since minimum lr 0.000200 was reached.
+2022-09-06 17:36:16,553 Best validation result at step       70:  17.19 dtw.
+2022-09-06 17:51:22,515 Progressive Transformers for End-to-End SLP
+2022-09-06 17:51:22,524 Total params: 15427584
+2022-09-06 17:51:22,525 Trainable parameters: ['decoder.layer_norm.bias', 'decoder.layer_norm.weight', 'decoder.layers.0.dec_layer_norm.bias', 'decoder.layers.0.dec_layer_norm.weight', 'decoder.layers.0.feed_forward.layer_norm.bias', 'decoder.layers.0.feed_forward.layer_norm.weight', 'decoder.layers.0.feed_forward.pwff_layer.0.bias', 'decoder.layers.0.feed_forward.pwff_layer.0.weight', 'decoder.layers.0.feed_forward.pwff_layer.3.bias', 'decoder.layers.0.feed_forward.pwff_layer.3.weight', 'decoder.layers.0.src_trg_att.k_layer.bias', 'decoder.layers.0.src_trg_att.k_layer.weight', 'decoder.layers.0.src_trg_att.output_layer.bias', 'decoder.layers.0.src_trg_att.output_layer.weight', 'decoder.layers.0.src_trg_att.q_layer.bias', 'decoder.layers.0.src_trg_att.q_layer.weight', 'decoder.layers.0.src_trg_att.v_layer.bias', 'decoder.layers.0.src_trg_att.v_layer.weight', 'decoder.layers.0.trg_trg_att.k_layer.bias', 'decoder.layers.0.trg_trg_att.k_layer.weight', 'decoder.layers.0.trg_trg_att.output_layer.bias', 'decoder.layers.0.trg_trg_att.output_layer.weight', 'decoder.layers.0.trg_trg_att.q_layer.bias', 'decoder.layers.0.trg_trg_att.q_layer.weight', 'decoder.layers.0.trg_trg_att.v_layer.bias', 'decoder.layers.0.trg_trg_att.v_layer.weight', 'decoder.layers.0.x_layer_norm.bias', 'decoder.layers.0.x_layer_norm.weight', 'decoder.layers.1.dec_layer_norm.bias', 'decoder.layers.1.dec_layer_norm.weight', 'decoder.layers.1.feed_forward.layer_norm.bias', 'decoder.layers.1.feed_forward.layer_norm.weight', 'decoder.layers.1.feed_forward.pwff_layer.0.bias', 'decoder.layers.1.feed_forward.pwff_layer.0.weight', 'decoder.layers.1.feed_forward.pwff_layer.3.bias', 'decoder.layers.1.feed_forward.pwff_layer.3.weight', 'decoder.layers.1.src_trg_att.k_layer.bias', 'decoder.layers.1.src_trg_att.k_layer.weight', 'decoder.layers.1.src_trg_att.output_layer.bias', 'decoder.layers.1.src_trg_att.output_layer.weight', 'decoder.layers.1.src_trg_att.q_layer.bias', 'decoder.layers.1.src_trg_att.q_layer.weight', 'decoder.layers.1.src_trg_att.v_layer.bias', 'decoder.layers.1.src_trg_att.v_layer.weight', 'decoder.layers.1.trg_trg_att.k_layer.bias', 'decoder.layers.1.trg_trg_att.k_layer.weight', 'decoder.layers.1.trg_trg_att.output_layer.bias', 'decoder.layers.1.trg_trg_att.output_layer.weight', 'decoder.layers.1.trg_trg_att.q_layer.bias', 'decoder.layers.1.trg_trg_att.q_layer.weight', 'decoder.layers.1.trg_trg_att.v_layer.bias', 'decoder.layers.1.trg_trg_att.v_layer.weight', 'decoder.layers.1.x_layer_norm.bias', 'decoder.layers.1.x_layer_norm.weight', 'decoder.output_layer.weight', 'encoder.layer_norm.bias', 'encoder.layer_norm.weight', 'encoder.layers.0.feed_forward.layer_norm.bias', 'encoder.layers.0.feed_forward.layer_norm.weight', 'encoder.layers.0.feed_forward.pwff_layer.0.bias', 'encoder.layers.0.feed_forward.pwff_layer.0.weight', 'encoder.layers.0.feed_forward.pwff_layer.3.bias', 'encoder.layers.0.feed_forward.pwff_layer.3.weight', 'encoder.layers.0.layer_norm.bias', 'encoder.layers.0.layer_norm.weight', 'encoder.layers.0.src_src_att.k_layer.bias', 'encoder.layers.0.src_src_att.k_layer.weight', 'encoder.layers.0.src_src_att.output_layer.bias', 'encoder.layers.0.src_src_att.output_layer.weight', 'encoder.layers.0.src_src_att.q_layer.bias', 'encoder.layers.0.src_src_att.q_layer.weight', 'encoder.layers.0.src_src_att.v_layer.bias', 'encoder.layers.0.src_src_att.v_layer.weight', 'encoder.layers.1.feed_forward.layer_norm.bias', 'encoder.layers.1.feed_forward.layer_norm.weight', 'encoder.layers.1.feed_forward.pwff_layer.0.bias', 'encoder.layers.1.feed_forward.pwff_layer.0.weight', 'encoder.layers.1.feed_forward.pwff_layer.3.bias', 'encoder.layers.1.feed_forward.pwff_layer.3.weight', 'encoder.layers.1.layer_norm.bias', 'encoder.layers.1.layer_norm.weight', 'encoder.layers.1.src_src_att.k_layer.bias', 'encoder.layers.1.src_src_att.k_layer.weight', 'encoder.layers.1.src_src_att.output_layer.bias', 'encoder.layers.1.src_src_att.output_layer.weight', 'encoder.layers.1.src_src_att.q_layer.bias', 'encoder.layers.1.src_src_att.q_layer.weight', 'encoder.layers.1.src_src_att.v_layer.bias', 'encoder.layers.1.src_src_att.v_layer.weight', 'src_embed.lut.weight', 'trg_embed.bias', 'trg_embed.weight']
+2022-09-06 17:51:22,527 Continuing model from ./Models/Base/470_every.ckpt
+2022-09-06 19:10:51,157 Progressive Transformers for End-to-End SLP
+2022-09-06 19:10:51,176 Total params: 15427584
+2022-09-06 19:10:51,177 Trainable parameters: ['decoder.layer_norm.bias', 'decoder.layer_norm.weight', 'decoder.layers.0.dec_layer_norm.bias', 'decoder.layers.0.dec_layer_norm.weight', 'decoder.layers.0.feed_forward.layer_norm.bias', 'decoder.layers.0.feed_forward.layer_norm.weight', 'decoder.layers.0.feed_forward.pwff_layer.0.bias', 'decoder.layers.0.feed_forward.pwff_layer.0.weight', 'decoder.layers.0.feed_forward.pwff_layer.3.bias', 'decoder.layers.0.feed_forward.pwff_layer.3.weight', 'decoder.layers.0.src_trg_att.k_layer.bias', 'decoder.layers.0.src_trg_att.k_layer.weight', 'decoder.layers.0.src_trg_att.output_layer.bias', 'decoder.layers.0.src_trg_att.output_layer.weight', 'decoder.layers.0.src_trg_att.q_layer.bias', 'decoder.layers.0.src_trg_att.q_layer.weight', 'decoder.layers.0.src_trg_att.v_layer.bias', 'decoder.layers.0.src_trg_att.v_layer.weight', 'decoder.layers.0.trg_trg_att.k_layer.bias', 'decoder.layers.0.trg_trg_att.k_layer.weight', 'decoder.layers.0.trg_trg_att.output_layer.bias', 'decoder.layers.0.trg_trg_att.output_layer.weight', 'decoder.layers.0.trg_trg_att.q_layer.bias', 'decoder.layers.0.trg_trg_att.q_layer.weight', 'decoder.layers.0.trg_trg_att.v_layer.bias', 'decoder.layers.0.trg_trg_att.v_layer.weight', 'decoder.layers.0.x_layer_norm.bias', 'decoder.layers.0.x_layer_norm.weight', 'decoder.layers.1.dec_layer_norm.bias', 'decoder.layers.1.dec_layer_norm.weight', 'decoder.layers.1.feed_forward.layer_norm.bias', 'decoder.layers.1.feed_forward.layer_norm.weight', 'decoder.layers.1.feed_forward.pwff_layer.0.bias', 'decoder.layers.1.feed_forward.pwff_layer.0.weight', 'decoder.layers.1.feed_forward.pwff_layer.3.bias', 'decoder.layers.1.feed_forward.pwff_layer.3.weight', 'decoder.layers.1.src_trg_att.k_layer.bias', 'decoder.layers.1.src_trg_att.k_layer.weight', 'decoder.layers.1.src_trg_att.output_layer.bias', 'decoder.layers.1.src_trg_att.output_layer.weight', 'decoder.layers.1.src_trg_att.q_layer.bias', 'decoder.layers.1.src_trg_att.q_layer.weight', 'decoder.layers.1.src_trg_att.v_layer.bias', 'decoder.layers.1.src_trg_att.v_layer.weight', 'decoder.layers.1.trg_trg_att.k_layer.bias', 'decoder.layers.1.trg_trg_att.k_layer.weight', 'decoder.layers.1.trg_trg_att.output_layer.bias', 'decoder.layers.1.trg_trg_att.output_layer.weight', 'decoder.layers.1.trg_trg_att.q_layer.bias', 'decoder.layers.1.trg_trg_att.q_layer.weight', 'decoder.layers.1.trg_trg_att.v_layer.bias', 'decoder.layers.1.trg_trg_att.v_layer.weight', 'decoder.layers.1.x_layer_norm.bias', 'decoder.layers.1.x_layer_norm.weight', 'decoder.output_layer.weight', 'encoder.layer_norm.bias', 'encoder.layer_norm.weight', 'encoder.layers.0.feed_forward.layer_norm.bias', 'encoder.layers.0.feed_forward.layer_norm.weight', 'encoder.layers.0.feed_forward.pwff_layer.0.bias', 'encoder.layers.0.feed_forward.pwff_layer.0.weight', 'encoder.layers.0.feed_forward.pwff_layer.3.bias', 'encoder.layers.0.feed_forward.pwff_layer.3.weight', 'encoder.layers.0.layer_norm.bias', 'encoder.layers.0.layer_norm.weight', 'encoder.layers.0.src_src_att.k_layer.bias', 'encoder.layers.0.src_src_att.k_layer.weight', 'encoder.layers.0.src_src_att.output_layer.bias', 'encoder.layers.0.src_src_att.output_layer.weight', 'encoder.layers.0.src_src_att.q_layer.bias', 'encoder.layers.0.src_src_att.q_layer.weight', 'encoder.layers.0.src_src_att.v_layer.bias', 'encoder.layers.0.src_src_att.v_layer.weight', 'encoder.layers.1.feed_forward.layer_norm.bias', 'encoder.layers.1.feed_forward.layer_norm.weight', 'encoder.layers.1.feed_forward.pwff_layer.0.bias', 'encoder.layers.1.feed_forward.pwff_layer.0.weight', 'encoder.layers.1.feed_forward.pwff_layer.3.bias', 'encoder.layers.1.feed_forward.pwff_layer.3.weight', 'encoder.layers.1.layer_norm.bias', 'encoder.layers.1.layer_norm.weight', 'encoder.layers.1.src_src_att.k_layer.bias', 'encoder.layers.1.src_src_att.k_layer.weight', 'encoder.layers.1.src_src_att.output_layer.bias', 'encoder.layers.1.src_src_att.output_layer.weight', 'encoder.layers.1.src_src_att.q_layer.bias', 'encoder.layers.1.src_src_att.q_layer.weight', 'encoder.layers.1.src_src_att.v_layer.bias', 'encoder.layers.1.src_src_att.v_layer.weight', 'src_embed.lut.weight', 'trg_embed.bias', 'trg_embed.weight']
+2022-09-06 19:10:51,180 Continuing model from ./Models/Base/470_every.ckpt
+2022-09-06 19:18:21,869 Progressive Transformers for End-to-End SLP
+2022-09-06 19:18:21,887 Total params: 15427584
+2022-09-06 19:18:21,893 Trainable parameters: ['decoder.layer_norm.bias', 'decoder.layer_norm.weight', 'decoder.layers.0.dec_layer_norm.bias', 'decoder.layers.0.dec_layer_norm.weight', 'decoder.layers.0.feed_forward.layer_norm.bias', 'decoder.layers.0.feed_forward.layer_norm.weight', 'decoder.layers.0.feed_forward.pwff_layer.0.bias', 'decoder.layers.0.feed_forward.pwff_layer.0.weight', 'decoder.layers.0.feed_forward.pwff_layer.3.bias', 'decoder.layers.0.feed_forward.pwff_layer.3.weight', 'decoder.layers.0.src_trg_att.k_layer.bias', 'decoder.layers.0.src_trg_att.k_layer.weight', 'decoder.layers.0.src_trg_att.output_layer.bias', 'decoder.layers.0.src_trg_att.output_layer.weight', 'decoder.layers.0.src_trg_att.q_layer.bias', 'decoder.layers.0.src_trg_att.q_layer.weight', 'decoder.layers.0.src_trg_att.v_layer.bias', 'decoder.layers.0.src_trg_att.v_layer.weight', 'decoder.layers.0.trg_trg_att.k_layer.bias', 'decoder.layers.0.trg_trg_att.k_layer.weight', 'decoder.layers.0.trg_trg_att.output_layer.bias', 'decoder.layers.0.trg_trg_att.output_layer.weight', 'decoder.layers.0.trg_trg_att.q_layer.bias', 'decoder.layers.0.trg_trg_att.q_layer.weight', 'decoder.layers.0.trg_trg_att.v_layer.bias', 'decoder.layers.0.trg_trg_att.v_layer.weight', 'decoder.layers.0.x_layer_norm.bias', 'decoder.layers.0.x_layer_norm.weight', 'decoder.layers.1.dec_layer_norm.bias', 'decoder.layers.1.dec_layer_norm.weight', 'decoder.layers.1.feed_forward.layer_norm.bias', 'decoder.layers.1.feed_forward.layer_norm.weight', 'decoder.layers.1.feed_forward.pwff_layer.0.bias', 'decoder.layers.1.feed_forward.pwff_layer.0.weight', 'decoder.layers.1.feed_forward.pwff_layer.3.bias', 'decoder.layers.1.feed_forward.pwff_layer.3.weight', 'decoder.layers.1.src_trg_att.k_layer.bias', 'decoder.layers.1.src_trg_att.k_layer.weight', 'decoder.layers.1.src_trg_att.output_layer.bias', 'decoder.layers.1.src_trg_att.output_layer.weight', 'decoder.layers.1.src_trg_att.q_layer.bias', 'decoder.layers.1.src_trg_att.q_layer.weight', 'decoder.layers.1.src_trg_att.v_layer.bias', 'decoder.layers.1.src_trg_att.v_layer.weight', 'decoder.layers.1.trg_trg_att.k_layer.bias', 'decoder.layers.1.trg_trg_att.k_layer.weight', 'decoder.layers.1.trg_trg_att.output_layer.bias', 'decoder.layers.1.trg_trg_att.output_layer.weight', 'decoder.layers.1.trg_trg_att.q_layer.bias', 'decoder.layers.1.trg_trg_att.q_layer.weight', 'decoder.layers.1.trg_trg_att.v_layer.bias', 'decoder.layers.1.trg_trg_att.v_layer.weight', 'decoder.layers.1.x_layer_norm.bias', 'decoder.layers.1.x_layer_norm.weight', 'decoder.output_layer.weight', 'encoder.layer_norm.bias', 'encoder.layer_norm.weight', 'encoder.layers.0.feed_forward.layer_norm.bias', 'encoder.layers.0.feed_forward.layer_norm.weight', 'encoder.layers.0.feed_forward.pwff_layer.0.bias', 'encoder.layers.0.feed_forward.pwff_layer.0.weight', 'encoder.layers.0.feed_forward.pwff_layer.3.bias', 'encoder.layers.0.feed_forward.pwff_layer.3.weight', 'encoder.layers.0.layer_norm.bias', 'encoder.layers.0.layer_norm.weight', 'encoder.layers.0.src_src_att.k_layer.bias', 'encoder.layers.0.src_src_att.k_layer.weight', 'encoder.layers.0.src_src_att.output_layer.bias', 'encoder.layers.0.src_src_att.output_layer.weight', 'encoder.layers.0.src_src_att.q_layer.bias', 'encoder.layers.0.src_src_att.q_layer.weight', 'encoder.layers.0.src_src_att.v_layer.bias', 'encoder.layers.0.src_src_att.v_layer.weight', 'encoder.layers.1.feed_forward.layer_norm.bias', 'encoder.layers.1.feed_forward.layer_norm.weight', 'encoder.layers.1.feed_forward.pwff_layer.0.bias', 'encoder.layers.1.feed_forward.pwff_layer.0.weight', 'encoder.layers.1.feed_forward.pwff_layer.3.bias', 'encoder.layers.1.feed_forward.pwff_layer.3.weight', 'encoder.layers.1.layer_norm.bias', 'encoder.layers.1.layer_norm.weight', 'encoder.layers.1.src_src_att.k_layer.bias', 'encoder.layers.1.src_src_att.k_layer.weight', 'encoder.layers.1.src_src_att.output_layer.bias', 'encoder.layers.1.src_src_att.output_layer.weight', 'encoder.layers.1.src_src_att.q_layer.bias', 'encoder.layers.1.src_src_att.q_layer.weight', 'encoder.layers.1.src_src_att.v_layer.bias', 'encoder.layers.1.src_src_att.v_layer.weight', 'src_embed.lut.weight', 'trg_embed.bias', 'trg_embed.weight']
+2022-09-06 19:18:21,898 Continuing model from ./Models/Base/470_every.ckpt
